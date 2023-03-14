@@ -1,13 +1,18 @@
 package com.example.passwordkeeper.Fragments;
 
+import android.app.Activity;
 import android.os.Handler;
+import android.view.View;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.passwordkeeper.MainActivity;
+import com.example.passwordkeeper.PasswordLab.PasswordCard;
+import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
 
@@ -39,7 +44,6 @@ public class AppFragmentManager {
         transaction.add(R.id.main_container_for_all_fragments, fragment);
 
 
-
         // Добавление транзакции в back stack для того чтобы пользователь мог вернуться к предыдущему фрагменту при нажатии кнопки "Назад"
        // transaction.addToBackStack(null);
 
@@ -64,6 +68,23 @@ public class AppFragmentManager {
                 openFragment(new LoginFragment());
                 currentFragment.requireActivity().finish();
             }
+        });
+    }
+
+
+    public static void setAddButton(View view, Activity activity) {
+        FloatingActionButton addFloatingActionButton = view.findViewById(R.id.fab_add_new_password);
+        addFloatingActionButton.setOnClickListener(o -> {
+            PasswordCard card = new PasswordCard();
+            PasswordLab.getLab(activity).addPasswordCard(card);
+            AppFragmentManager.openFragment(PasswordCardFragment.newInstance(card.getId()));
+        });
+    }
+
+    public static void setLeaveButton(View view ) {
+        FloatingActionButton leaveFloatingActionButton = view.findViewById(R.id.fab_leave_button);
+        leaveFloatingActionButton.setOnClickListener(o -> {
+            AppFragmentManager.openFragment(new LoginFragment());
         });
     }
 

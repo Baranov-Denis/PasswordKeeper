@@ -32,6 +32,7 @@ import java.util.Locale;
 import com.example.passwordkeeper.PasswordLab.PasswordCard;
 import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class PasswordsListFragment extends Fragment {
 
@@ -57,20 +58,11 @@ public class PasswordsListFragment extends Fragment {
         passwordRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         passwordLab = PasswordLab.getLab(getContext());
         updateUI();
-      //  AppFragmentManager.addFragment(new HotKeyButtonsFragment());
-
-        AppFragmentManager.setUpTargetForBackPressed(this,new LoginFragment());
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Обновление существующего фрагмента
-                AppFragmentManager.addFragment(new HotKeyButtonsFragment());
-            }
-        }, 500);
+        AppFragmentManager.setUpTargetForBackPressed(this, new LoginFragment());
+        AppFragmentManager.setAddButton(view, this.getActivity());
+        AppFragmentManager.setLeaveButton(view);
         return view;
     }
-
-
 
 
     private void updateUI() {
@@ -90,7 +82,7 @@ public class PasswordsListFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         //TODO
-   //     inflater.inflate(R.menu.fragment_password_list, menu);
+        //     inflater.inflate(R.menu.fragment_password_list, menu);
     }
 
 /*
@@ -125,7 +117,7 @@ public class PasswordsListFragment extends Fragment {
                     Intent intentForStartFileManager = new Intent(Intent.ACTION_GET_CONTENT);
 
              */
-         // intentForStartFileManager.setType("*/*");
+    // intentForStartFileManager.setType("*/*");
                   /*  someActivityResultLauncher.launch(intentForStartFileManager);
 
 
@@ -211,7 +203,7 @@ public class PasswordsListFragment extends Fragment {
             this.passwordCard = passwordCard;
 
             if (PasswordLab.passwordIsWrong(passwordCard)) {
-                    resourceNameTextView.setText(getActivity().getResources().getString(R.string.access_denied));
+                resourceNameTextView.setText(getActivity().getResources().getString(R.string.access_denied));
             } else {
                 String[] title = passwordCard.getResourceName().split("");
                 title[0] = title[0].toUpperCase(Locale.ROOT);
@@ -260,16 +252,11 @@ public class PasswordsListFragment extends Fragment {
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
         updateUI();
     }
-
-
-
-
 
 
 }

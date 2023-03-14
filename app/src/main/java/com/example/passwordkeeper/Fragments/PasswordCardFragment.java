@@ -25,6 +25,7 @@ import java.util.UUID;
 import com.example.passwordkeeper.PasswordLab.PasswordCard;
 import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
+import com.example.passwordkeeper.PasswordLab.PasswordGenerator;
 
 
 public class PasswordCardFragment extends Fragment {
@@ -131,7 +132,7 @@ public class PasswordCardFragment extends Fragment {
         }
         setTextViewListeners(true);
         AppFragmentManager.setUpTargetForBackPressed(this,new PasswordsListFragment());
-
+        AppFragmentManager.setLeaveButton(view);
         return view;
     }
 
@@ -205,7 +206,7 @@ public class PasswordCardFragment extends Fragment {
             setTextViewListeners(false);
             deleteButton.setText(getActivity().getResources().getString(R.string.Generate));
             deleteButton.setOnClickListener(del -> {
-               // passwordTextView.setText(PasswordGenerator.generate());
+                passwordTextView.setText(PasswordGenerator.generate());
             });
 
             setLoginAndPasswordVisible(true);
@@ -254,7 +255,7 @@ public class PasswordCardFragment extends Fragment {
 
         deleteButton.setText(getActivity().getResources().getString(R.string.Generate));
         deleteButton.setOnClickListener(del -> {
-           // passwordTextView.setText(PasswordGenerator.generate());
+            passwordTextView.setText(PasswordGenerator.generate());
         });
 
 

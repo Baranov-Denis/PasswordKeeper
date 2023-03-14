@@ -11,7 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.passwordkeeper.MainActivity;
+import com.example.passwordkeeper.PasswordLab.PasswordCard;
+import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class LoginFragment extends Fragment {
 
@@ -25,6 +28,7 @@ public class LoginFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_login, container, false);
         createEnterButton();
         AppFragmentManager.closeApp(this);
+
         return view;
     }
 
@@ -35,6 +39,8 @@ public class LoginFragment extends Fragment {
 
         });
     }
+
+
 
 
 

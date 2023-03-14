@@ -16,7 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HotKeyButtonsFragment extends Fragment {
 
-private View view;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -24,16 +24,23 @@ private View view;
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_hot_key_buttons, container, false);
         setAddButton();
+        setLeaveButton();
         return view;
     }
 
-    private void setAddButton(){
+    private void setAddButton() {
         FloatingActionButton addFloatingActionButton = view.findViewById(R.id.fab_add_new_password);
-        addFloatingActionButton.setOnClickListener(o->{
+        addFloatingActionButton.setOnClickListener(o -> {
             PasswordCard card = new PasswordCard();
             PasswordLab.getLab(getActivity()).addPasswordCard(card);
+            AppFragmentManager.openFragment(PasswordCardFragment.newInstance(card.getId()));
+        });
+    }
 
-AppFragmentManager.openFragment(PasswordCardFragment.newInstance(card.getId()));
+    private void setLeaveButton() {
+        FloatingActionButton leaveFloatingActionButton = view.findViewById(R.id.fab_leave_button);
+        leaveFloatingActionButton.setOnClickListener(o -> {
+            AppFragmentManager.openFragment(new LoginFragment());
         });
     }
 }
