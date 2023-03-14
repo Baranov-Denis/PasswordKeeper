@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -22,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +38,13 @@ import com.example.passwordkeeper.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class PasswordsListFragment extends Fragment {
+
+
+    private FloatingActionButton addFloatingActionButton;
+    private FloatingActionButton leaveFloatingActionButton;
+
+    int animDurationDelay ;
+
 
 
     private RecyclerView passwordRecyclerView;
@@ -54,14 +64,45 @@ public class PasswordsListFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_passwords_list, container, false);
 
+
+
         passwordRecyclerView = view.findViewById(R.id.password_recycler_view);
         passwordRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         passwordLab = PasswordLab.getLab(getContext());
         updateUI();
+        animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
+        addFloatingActionButton = view.findViewById(R.id.fab_add_new_password);
+        leaveFloatingActionButton = view.findViewById(R.id.fab_leave_button);
+
         AppFragmentManager.setUpTargetForBackPressed(this, new LoginFragment());
-        AppFragmentManager.setAddButton(view, this.getActivity());
-        AppFragmentManager.setLeaveButton(view);
+        //  AppFragmentManager.setAddButton(view, this.getActivity());
+        setAddButton();
+        setLeaveButton();
+        setUpTargetForBackPressed();
+       // AppFragmentManager.setLeaveButton(view);
         return view;
+    }
+
+    public void setUpTargetForBackPressed() {
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+                int animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
+
+                AppFragmentManager.hideFloatButton(addFloatingActionButton, view);
+                AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        AppFragmentManager.openFragment(new LoginFragment());
+                    }
+                }, animDurationDelay );
+
+            }
+        });
     }
 
 
@@ -84,6 +125,81 @@ public class PasswordsListFragment extends Fragment {
         //TODO
         //     inflater.inflate(R.menu.fragment_password_list, menu);
     }
+
+    @Override
+    public void onPause() {
+
+        super.onPause();
+
+    }
+
+
+    public void setAddButton() {
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addFloatingActionButton.setVisibility(View.VISIBLE);
+                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.show_anim_for_fab);
+                addFloatingActionButton.startAnimation(rotateAnimation);
+            }
+        }, animDurationDelay);
+
+
+        addFloatingActionButton.setOnClickListener(o -> {
+            PasswordCard card = new PasswordCard();
+            PasswordLab.getLab(getActivity()).addPasswordCard(card);
+
+            Handler mHandler = new Handler();
+            AppFragmentManager.hideFloatButton(addFloatingActionButton, view);
+            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Здесь запускаем переход на другой фрагмент
+
+                    AppFragmentManager.openFragment(PasswordCardFragment.newInstance(card.getId()));
+                }
+            }, animDurationDelay);
+        });
+    }
+
+
+
+
+    public void setLeaveButton() {
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                leaveFloatingActionButton.setVisibility(View.VISIBLE);
+                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.show_anim_for_fab);
+                leaveFloatingActionButton.startAnimation(rotateAnimation);
+            }
+        }, animDurationDelay);
+
+
+        leaveFloatingActionButton.setOnClickListener(o -> {
+
+            Handler mHandler = new Handler();
+            AppFragmentManager.hideFloatButton(addFloatingActionButton, view);
+            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AppFragmentManager.openFragment(new LoginFragment());
+                }
+            }, animDurationDelay);
+        });
+    }
+
+
+
+
+
+
 
 /*
     @RequiresApi(api = Build.VERSION_CODES.R)
@@ -218,10 +334,19 @@ public class PasswordsListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            AppFragmentManager.openFragment(PasswordCardFragment.newInstance(passwordCard.getId()));
+
+            Handler mHandler = new Handler();
+            //AppFragmentManager.hideFloatButton(view);
+            AppFragmentManager.hideFloatButton(addFloatingActionButton, view);
+            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AppFragmentManager.openFragment(PasswordCardFragment.newInstance(passwordCard.getId()));
+                }
+            }, animDurationDelay);
+
         }
-
-
     }
 
     private class PasswordAdapter extends RecyclerView.Adapter<PasswordHolder> {

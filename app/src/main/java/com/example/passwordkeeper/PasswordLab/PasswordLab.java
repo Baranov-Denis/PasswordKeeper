@@ -4,13 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
-import android.util.Log;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -177,7 +171,7 @@ public class PasswordLab {
     public void reloadAllCardsWithNewPassword(String newPassword){
         PasswordCard passwordCard;
 
-        List oldCards =  getPasswords();
+        List<PasswordCard> oldCards =  getPasswords();
 keyCode = newPassword;
         for (int i = 0 ; i < oldCards.size() ; i++){
             passwordCard = (PasswordCard)oldCards.get(i);
@@ -218,7 +212,7 @@ keyCode = newPassword;
 
     }
 
-
+/*
     public boolean backUp() {
         try {
             File data = Environment.getDataDirectory();
@@ -252,6 +246,6 @@ keyCode = newPassword;
             Log.i(PasswordLab.GLOBAL_TAG, e.getMessage());
         }
         return false;
-    }
+    }*/
 
 }

@@ -3,14 +3,18 @@ package com.example.passwordkeeper.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +37,8 @@ public class PasswordCardFragment extends Fragment {
     private static final String ARG_PASSWORD_ID = "password_id";
 
     private  FloatingActionButton floatingActionButtonEye;
+    private  FloatingActionButton leaveFloatingActionButton;
+    private int animDurationDelay;
 
     private View view;
 
@@ -63,6 +69,7 @@ public class PasswordCardFragment extends Fragment {
         UUID passwordId = (UUID) getArguments().getSerializable(PasswordCardFragment.ARG_PASSWORD_ID);
         passwordLab = PasswordLab.getLab(getActivity());
         passwordCard = passwordLab.getPasswordCard(passwordId);
+        animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
     }
 
 
@@ -104,6 +111,7 @@ public class PasswordCardFragment extends Fragment {
         deleteButton = view.findViewById(R.id.delete_button_fp);
 
         floatingActionButtonEye = view.findViewById(R.id.fab_eye_button);
+        leaveFloatingActionButton = view.findViewById(R.id.fab_leave_button);
 
         if (PasswordLab.passwordIsWrong(passwordCard)) {
             resourceNameTextView.setText(getActivity().getResources().getString(R.string.access_denied));
@@ -132,21 +140,91 @@ public class PasswordCardFragment extends Fragment {
         }
         setTextViewListeners(true);
         AppFragmentManager.setUpTargetForBackPressed(this,new PasswordsListFragment());
-        AppFragmentManager.setLeaveButton(view);
+        setUpTargetForBackPressed();
+        setLeaveButton();
         return view;
     }
 
 
+    public void setLeaveButton() {
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                leaveFloatingActionButton.setVisibility(View.VISIBLE);
+                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.show_anim_for_fab);
+                leaveFloatingActionButton.startAnimation(rotateAnimation);
+            }
+        }, animDurationDelay);
+
+
+        leaveFloatingActionButton.setOnClickListener(o -> {
+
+            Handler mHandler = new Handler();
+            AppFragmentManager.hideFloatButton(floatingActionButtonEye, view);
+            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AppFragmentManager.openFragment(new LoginFragment());
+                }
+            }, animDurationDelay);
+        });
+    }
+
+
+
+
+    public void setUpTargetForBackPressed() {
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+                int animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
+
+                AppFragmentManager.hideFloatButton(floatingActionButtonEye, view);
+                AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        AppFragmentManager.openFragment(new PasswordsListFragment());
+                    }
+                }, animDurationDelay );
+
+            }
+        });
+    }
+
+
+
     private void setOnlyBackButtons() {
 
-
         backButton.setOnClickListener(b -> {
-            goToPasswordListActivity();
+            Handler mHandler = new Handler();
+            AppFragmentManager.hideFloatButton(floatingActionButtonEye, view);
+            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goToPasswordListActivity();
+                }
+            }, animDurationDelay);
         });
         changeButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(d -> {
             passwordLab.deletePasswordById(passwordCard.getId());
-            goToPasswordListActivity();
+            Handler mHandler = new Handler();
+            AppFragmentManager.hideFloatButton(floatingActionButtonEye, view);
+            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goToPasswordListActivity();
+                }
+            }, animDurationDelay);
         });
     }
 
@@ -191,7 +269,16 @@ public class PasswordCardFragment extends Fragment {
             if (!PasswordLab.passwordIsWrong(passwordCard)) {
                 passwordLab.updatePasswordCard(passwordCard);
             }
-            goToPasswordListActivity();
+            Handler mHandler = new Handler();
+            AppFragmentManager.hideFloatButton(floatingActionButtonEye, view);
+            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goToPasswordListActivity();
+                }
+            }, animDurationDelay);
+
         });
 
 /**
@@ -262,7 +349,15 @@ public class PasswordCardFragment extends Fragment {
         backButton.setText(getActivity().getResources().getString(R.string.chancel_button_text));
         backButton.setOnClickListener(ch -> {
             passwordLab.deletePasswordById(passwordCard.getId());
-            goToPasswordListActivity();
+            Handler mHandler = new Handler();
+            AppFragmentManager.hideFloatButton(floatingActionButtonEye, view);
+            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goToPasswordListActivity();
+                }
+            }, animDurationDelay);
         });
 
 
@@ -273,7 +368,15 @@ public class PasswordCardFragment extends Fragment {
                 passwordLab.updatePasswordCard(passwordCard);
                 Toast toast = Toast.makeText(getActivity(), passwordCard.getResourceName() + " " + getActivity().getResources().getString(R.string.password_saved), Toast.LENGTH_SHORT);
                 toast.show();
-                goToPasswordListActivity();
+                Handler mHandler = new Handler();
+                AppFragmentManager.hideFloatButton(floatingActionButtonEye, view);
+                AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        goToPasswordListActivity();
+                    }
+                }, animDurationDelay);
             } else {
                 Toast toast = Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Need_to_fill_all_fields), Toast.LENGTH_SHORT);
                 toast.show();
@@ -286,6 +389,16 @@ public class PasswordCardFragment extends Fragment {
 
         // floatingActionButtonEye.hide();
 
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                floatingActionButtonEye.setVisibility(View.VISIBLE);
+                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.show_anim_for_fab);
+                floatingActionButtonEye.startAnimation(rotateAnimation);
+            }
+        }, animDurationDelay);
+
         floatingActionButtonEye.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -293,10 +406,14 @@ public class PasswordCardFragment extends Fragment {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     // Действие при начале удержания кнопки нажатой
                     setLoginAndPasswordVisible(true);
+                    Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.just_one_rotate);
+                    floatingActionButtonEye.startAnimation(rotateAnimation);
                     return true;
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     // Действие при окончании удержания кнопки нажатой
                     setLoginAndPasswordVisible(false);
+                    Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.just_one_rotate);
+                    floatingActionButtonEye.startAnimation(rotateAnimation);
                     return true;
                 }
                 return false;
@@ -304,8 +421,38 @@ public class PasswordCardFragment extends Fragment {
 
         });
 
-
     }
+/**
+    public void setLeaveButton() {
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                leaveFloatingActionButton.setVisibility(View.VISIBLE);
+                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.show_anim_for_fab);
+                leaveFloatingActionButton.startAnimation(rotateAnimation);
+            }
+        }, animDurationDelay);
+
+
+        leaveFloatingActionButton.setOnClickListener(o -> {
+
+            Handler mHandler = new Handler();
+            AppFragmentManager.hideFloatButton(floatingActionButtonEye, view);
+            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AppFragmentManager.openFragment(new LoginFragment());
+                }
+            }, animDurationDelay);
+        });
+    }
+
+    //*/
+
+
 
     private void setLoginAndPasswordVisible( boolean visible) {
         if (visible) {
