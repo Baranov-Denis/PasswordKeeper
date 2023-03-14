@@ -77,6 +77,7 @@ public class PasswordGenerator {
 
     private static char getRandomSymbolCharFromArray() {
         Random random = new Random();
+        setVowelCharacter(false);
         return symbolsList.get(random.nextInt(symbolsList.size()));
     }
 
