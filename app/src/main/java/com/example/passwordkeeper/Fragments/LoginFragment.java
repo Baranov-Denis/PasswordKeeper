@@ -36,7 +36,6 @@ public class LoginFragment extends Fragment {
         enterButton = view.findViewById(R.id.enter_button);
         enterButton.setOnClickListener(o ->{
            AppFragmentManager.openFragment(new PasswordsListFragment());
-
         });
     }
 

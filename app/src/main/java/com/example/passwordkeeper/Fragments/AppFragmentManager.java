@@ -20,7 +20,7 @@ public class AppFragmentManager {
 
         FragmentTransaction transaction = MainActivity.fragmentManager.beginTransaction();
 
-        transaction.setCustomAnimations(R.anim.fade_in_500, R.anim.fade_out_500, R.anim.fade_in_500, R.anim.fade_out_500);
+        transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
         // добавление нового фрагмента в транзакцию
         transaction.replace(R.id.main_container_for_all_fragments, fragment);
 
@@ -48,7 +48,7 @@ public class AppFragmentManager {
     }
 */
 
-    public static void setUpTargetForBackPressed(Fragment currentFragment, Fragment targetFragment) {
+    /*public static void setUpTargetForBackPressed(Fragment currentFragment, Fragment targetFragment) {
         currentFragment.requireActivity().getOnBackPressedDispatcher().addCallback(currentFragment.getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -65,7 +65,7 @@ public class AppFragmentManager {
 
             }
         });
-    }
+    }*/
 
     public static void closeApp(Fragment currentFragment) {
         currentFragment.requireActivity().getOnBackPressedDispatcher().addCallback(currentFragment.getViewLifecycleOwner(), new OnBackPressedCallback(true) {

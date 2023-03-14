@@ -77,7 +77,7 @@ public class PasswordCardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        addShowPasswordEyeActionButton();
+      //  addShowPasswordEyeActionButton();
     }
 
     private void disableEditText() {
@@ -130,7 +130,7 @@ public class PasswordCardFragment extends Fragment {
             if (passwordCard.getResourceName() != null) {
                 disableEditText();
                 setButtons();
-
+                addShowPasswordEyeActionButton();
             } else {
                 setLoginAndPasswordVisible(true);
                 view.findViewById(R.id.last_changed).setVisibility(View.GONE);
@@ -139,9 +139,9 @@ public class PasswordCardFragment extends Fragment {
             }
         }
         setTextViewListeners(true);
-        AppFragmentManager.setUpTargetForBackPressed(this,new PasswordsListFragment());
         setUpTargetForBackPressed();
         setLeaveButton();
+
         return view;
     }
 

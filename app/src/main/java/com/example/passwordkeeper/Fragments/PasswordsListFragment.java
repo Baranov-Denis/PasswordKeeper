@@ -74,7 +74,7 @@ public class PasswordsListFragment extends Fragment {
         addFloatingActionButton = view.findViewById(R.id.fab_add_new_password);
         leaveFloatingActionButton = view.findViewById(R.id.fab_leave_button);
 
-        AppFragmentManager.setUpTargetForBackPressed(this, new LoginFragment());
+
         //  AppFragmentManager.setAddButton(view, this.getActivity());
         setAddButton();
         setLeaveButton();
@@ -96,7 +96,6 @@ public class PasswordsListFragment extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
                         AppFragmentManager.openFragment(new LoginFragment());
                     }
                 }, animDurationDelay );
