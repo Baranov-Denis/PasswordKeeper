@@ -90,8 +90,7 @@ public class PasswordsListFragment extends Fragment {
 
                 int animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
 
-                AppFragmentManager.hideFloatButton(addFloatingActionButton, view);
-                AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+                hideAllFloatButtons();
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -151,8 +150,7 @@ public class PasswordsListFragment extends Fragment {
             PasswordLab.getLab(getActivity()).addPasswordCard(card);
 
             Handler mHandler = new Handler();
-            AppFragmentManager.hideFloatButton(addFloatingActionButton, view);
-            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+            hideAllFloatButtons();
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -183,8 +181,7 @@ public class PasswordsListFragment extends Fragment {
         leaveFloatingActionButton.setOnClickListener(o -> {
 
             Handler mHandler = new Handler();
-            AppFragmentManager.hideFloatButton(addFloatingActionButton, view);
-            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+            hideAllFloatButtons();
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -192,6 +189,11 @@ public class PasswordsListFragment extends Fragment {
                 }
             }, animDurationDelay);
         });
+    }
+
+    private void hideAllFloatButtons(){
+        AppFragmentManager.hideFloatButton(addFloatingActionButton, view);
+        AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
     }
 
 
@@ -335,9 +337,8 @@ public class PasswordsListFragment extends Fragment {
         public void onClick(View v) {
 
             Handler mHandler = new Handler();
-            //AppFragmentManager.hideFloatButton(view);
-            AppFragmentManager.hideFloatButton(addFloatingActionButton, view);
-            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+
+            hideAllFloatButtons();
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {

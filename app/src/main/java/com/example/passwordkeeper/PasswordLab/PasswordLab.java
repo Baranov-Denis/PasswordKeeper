@@ -21,7 +21,7 @@ public class PasswordLab {
     public static final String GLOBAL_TAG = "------>>>>";
 
     private static PasswordLab passwordLab;
-    private static String keyCode = "999";
+    private static String keyCode = "vacanda";
     private Context context;
     private SQLiteDatabase sqLiteDatabase;
     private SQLiteDatabase externalDatabase;

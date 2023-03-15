@@ -2,9 +2,13 @@ package com.example.passwordkeeper.Fragments;
 
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
@@ -20,6 +24,7 @@ public class LoginFragment extends Fragment {
 
     private View view;
     private AppCompatButton enterButton;
+    private FloatingActionButton helpFab;
 
 
     @Override
@@ -28,19 +33,43 @@ public class LoginFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_login, container, false);
         createEnterButton();
         AppFragmentManager.closeApp(this);
-
+        setHelpFabButton();
         return view;
     }
 
     private void createEnterButton() {
         enterButton = view.findViewById(R.id.enter_button);
-        enterButton.setOnClickListener(o ->{
-           AppFragmentManager.openFragment(new PasswordsListFragment());
+        enterButton.setOnClickListener(o -> {
+            AppFragmentManager.openFragment(new PasswordsListFragment());
         });
     }
 
+    public void setHelpFabButton() {
+        helpFab = view.findViewById(R.id.fab_help_button);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                helpFab.setVisibility(View.VISIBLE);
+                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.show_anim_for_fab);
+                helpFab.startAnimation(rotateAnimation);
+            }
+        }, MainActivity.animationDelay);
 
+        helpFab.setOnClickListener(o -> {
+            Handler mHandler = new Handler();
+            AppFragmentManager.hideFloatButton(helpFab, view);
 
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Здесь запускаем переход на другой фрагмент
+                    Toast.makeText(getContext(), "This is will help you!!!", Toast.LENGTH_SHORT).show();
+                    helpFab.hide();
+                }
+            }, MainActivity.animationDelay);
+        });
+    }
 
 
 }

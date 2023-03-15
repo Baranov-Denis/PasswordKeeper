@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="Fragments.LoginFragment"
     android:id="@+id/password_fragment"
+    >
+
+
+<LinearLayout
+    android:id="@+id/password_fragment_in"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -67,3 +74,19 @@
 
 
 </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_help_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabCustomSize="60dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        app:tint="@color/yellow"
+        android:src="@drawable/ic_help_float_yellow_button"
+        app:maxImageSize="50dp"
+        app:backgroundTint="@color/white"
+        android:visibility="invisible"
+        />
+</FrameLayout>
