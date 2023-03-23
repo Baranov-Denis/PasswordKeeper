@@ -4,9 +4,18 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
+import android.util.Log;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -212,21 +221,30 @@ keyCode = newPassword;
 
     }
 
-/*
+
     public boolean backUp() {
         try {
             File data = Environment.getDataDirectory();
             String state = Environment.getExternalStorageState();
             if (Environment.MEDIA_MOUNTED.equals(state)) {
 
-                String currentDBPath = "/data/com.example.dontforgetyourpassword/databases/password_base";
+                String currentDBPath = "/data/com.example.passwordkeeper/databases/password_base";
+
                 File currentDB = new File(data, currentDBPath);
 
 
                 File on = new File(Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_DOCUMENTS), "Password keeper");
                 on.mkdirs();
-                File backupDBFile = new File(on, "/keeper_backup.db");
+                //Имя файла
+                LocalDate currentDate = LocalDate.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
+                String formattedDate = currentDate.format(formatter);
+                StringBuilder outputFileName = new StringBuilder("/keeper_backup_");
+                outputFileName.append(formattedDate);
+                outputFileName.append(".db");
+               // File backupDBFile = new File(on, "/keeper_backup.db");
+                File backupDBFile = new File(on, outputFileName.toString());
 
                 if (currentDB.exists()) {
                     FileChannel src = new FileInputStream(currentDB).getChannel();
@@ -246,6 +264,6 @@ keyCode = newPassword;
             Log.i(PasswordLab.GLOBAL_TAG, e.getMessage());
         }
         return false;
-    }*/
+    }
 
 }

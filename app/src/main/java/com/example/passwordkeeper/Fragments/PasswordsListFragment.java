@@ -1,6 +1,8 @@
 package com.example.passwordkeeper.Fragments;
 
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.content.Intent;
 
@@ -29,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,6 +45,9 @@ public class PasswordsListFragment extends Fragment {
 
     private FloatingActionButton addFloatingActionButton;
     private FloatingActionButton leaveFloatingActionButton;
+    private FloatingActionButton saveDBFloatingActionButton;
+    private FloatingActionButton settingsFloatingActionButton;
+    private List<FloatingActionButton> fabList;
 
     int animDurationDelay ;
 
@@ -71,16 +77,23 @@ public class PasswordsListFragment extends Fragment {
         passwordLab = PasswordLab.getLab(getContext());
         updateUI();
         animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
-        addFloatingActionButton = view.findViewById(R.id.fab_add_new_password);
-        leaveFloatingActionButton = view.findViewById(R.id.fab_leave_button);
 
 
         //  AppFragmentManager.setAddButton(view, this.getActivity());
-        setAddButton();
-        setLeaveButton();
+        initFab();
         setUpTargetForBackPressed();
        // AppFragmentManager.setLeaveButton(view);
         return view;
+    }
+
+
+    private void initFab(){
+        fabList = new ArrayList<>();
+        fabList.add(setSettingsFab());
+        fabList.add(setSavingDBFab());
+        fabList.add(setAddButton());
+        fabList.add(setLeaveButton());
+
     }
 
     public void setUpTargetForBackPressed() {
@@ -132,17 +145,11 @@ public class PasswordsListFragment extends Fragment {
     }
 
 
-    public void setAddButton() {
+    public FloatingActionButton setAddButton() {
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                addFloatingActionButton.setVisibility(View.VISIBLE);
-                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.show_anim_for_fab);
-                addFloatingActionButton.startAnimation(rotateAnimation);
-            }
-        }, animDurationDelay);
+        addFloatingActionButton = view.findViewById(R.id.fab_add_new_password);
+
+        rollInFabButton(addFloatingActionButton);
 
 
         addFloatingActionButton.setOnClickListener(o -> {
@@ -160,22 +167,18 @@ public class PasswordsListFragment extends Fragment {
                 }
             }, animDurationDelay);
         });
+        return addFloatingActionButton;
     }
 
 
 
 
-    public void setLeaveButton() {
+    public FloatingActionButton setLeaveButton() {
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                leaveFloatingActionButton.setVisibility(View.VISIBLE);
-                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.show_anim_for_fab);
-                leaveFloatingActionButton.startAnimation(rotateAnimation);
-            }
-        }, animDurationDelay);
+        leaveFloatingActionButton = view.findViewById(R.id.fab_leave_button);
+
+
+        rollInFabButton(leaveFloatingActionButton);
 
 
         leaveFloatingActionButton.setOnClickListener(o -> {
@@ -189,11 +192,51 @@ public class PasswordsListFragment extends Fragment {
                 }
             }, animDurationDelay);
         });
+
+        return  leaveFloatingActionButton;
+    }
+
+    private FloatingActionButton setSavingDBFab(){
+        saveDBFloatingActionButton = view.findViewById(R.id.fab_save_passwords_database);
+        rollInFabButton(saveDBFloatingActionButton);
+        saveDBFloatingActionButton.setOnClickListener(l->{
+            if (passwordLab.backUp()) {
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.Backup_is_successful_to_SD_card), Toast.LENGTH_LONG).show();
+                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.process_rolling_animation);
+                saveDBFloatingActionButton.startAnimation(rotateAnimation);
+            }
+        });
+        return saveDBFloatingActionButton;
+    }
+
+    private FloatingActionButton setSettingsFab(){
+        settingsFloatingActionButton = view.findViewById(R.id.fab_settings);
+        rollInFabButton(settingsFloatingActionButton);
+        settingsFloatingActionButton.setOnClickListener(l->{
+                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.crazy_rotate);
+                settingsFloatingActionButton.startAnimation(rotateAnimation);
+        });
+        return settingsFloatingActionButton;
+    }
+
+
+    private void rollInFabButton(FloatingActionButton fab){
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fab.setVisibility(View.VISIBLE);
+                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.show_anim_for_fab);
+                fab.startAnimation(rotateAnimation);
+            }
+        }, animDurationDelay);
+
     }
 
     private void hideAllFloatButtons(){
-        AppFragmentManager.hideFloatButton(addFloatingActionButton, view);
-        AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+        for(FloatingActionButton fab : fabList){
+            if(fab.isOrWillBeShown())AppFragmentManager.hideFloatButton(fab,view);
+        }
     }
 
 

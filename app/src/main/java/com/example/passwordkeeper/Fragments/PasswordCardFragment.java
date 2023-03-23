@@ -77,15 +77,13 @@ public class PasswordCardFragment extends Fragment {
         animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
     }
 
-    private void hideAllFloatButtons(int variable) {
-        if (variable == 1) {
-            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
-        } else if (variable == 2) {
-            AppFragmentManager.hideFloatButton(eyeFloatingActionButton, view);
-            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
-        }
-    }
 
+    private void hideAllFloatButtons() {
+        if (leaveFloatingActionButton.isOrWillBeShown())
+            AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
+        if (eyeFloatingActionButton.isOrWillBeShown())
+            AppFragmentManager.hideFloatButton(eyeFloatingActionButton, view);
+    }
 
     @Override
     public void onResume() {
@@ -107,7 +105,7 @@ public class PasswordCardFragment extends Fragment {
         noteTextView.setFocusableInTouchMode(true);
     }
 
-    private void connectRobotFontFamily(){
+    private void connectRobotFontFamily() {
         robotFontFamilyTypeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_mono_regular);
     }
 
@@ -194,7 +192,7 @@ public class PasswordCardFragment extends Fragment {
         leaveFloatingActionButton.setOnClickListener(o -> {
 
             Handler mHandler = new Handler();
-            hideAllFloatButtons(2);
+            hideAllFloatButtons();
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -212,7 +210,7 @@ public class PasswordCardFragment extends Fragment {
 
                 int animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
 
-                hideAllFloatButtons(2);
+                hideAllFloatButtons();
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -231,7 +229,7 @@ public class PasswordCardFragment extends Fragment {
 
         backButton.setOnClickListener(b -> {
             Handler mHandler = new Handler();
-            hideAllFloatButtons(2);
+            hideAllFloatButtons();
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -243,7 +241,7 @@ public class PasswordCardFragment extends Fragment {
         deleteButton.setOnClickListener(d -> {
             passwordLab.deletePasswordById(passwordCard.getId());
             Handler mHandler = new Handler();
-            hideAllFloatButtons(2);
+            hideAllFloatButtons();
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -280,8 +278,8 @@ public class PasswordCardFragment extends Fragment {
     private void setButtons() {
 
         /**
-        * Delete button
-        */
+         * Delete button
+         */
         deleteButton.setOnClickListener(d -> {
          /*   FragmentManager fragmentManager = getParentFragmentManager();
             DeleteDialogFragment newFragment = DeleteDialogFragment.newInstance(passwordCard.getId().toString());
@@ -290,14 +288,14 @@ public class PasswordCardFragment extends Fragment {
 
 
         /**
-        * Back button
-        */
+         * Back button
+         */
         backButton.setOnClickListener(b -> {
             if (!PasswordLab.passwordIsWrong(passwordCard)) {
                 passwordLab.updatePasswordCard(passwordCard);
             }
             Handler mHandler = new Handler();
-            hideAllFloatButtons(2);
+            hideAllFloatButtons();
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -309,8 +307,8 @@ public class PasswordCardFragment extends Fragment {
 
 
         /**
-        * Change button
-        */
+         * Change button
+         */
         changeButton.setOnClickListener(e -> {
 
             //Скрыть Fab с глазом
@@ -393,15 +391,14 @@ public class PasswordCardFragment extends Fragment {
         });
 
 
-
         /**
          *Переназначаю кнопку BACK
          */
         backButton.setText(getActivity().getResources().getString(R.string.chancel_button_text));
         backButton.setOnClickListener(ch -> {
-         //   if(!allFill()) passwordLab.deletePasswordById(passwordCard.getId());
+            //   if(!allFill()) passwordLab.deletePasswordById(passwordCard.getId());
             Handler mHandler = new Handler();
-            hideAllFloatButtons(2);
+            hideAllFloatButtons();
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -426,7 +423,7 @@ public class PasswordCardFragment extends Fragment {
                 eyeFloatingActionButton.hide();
                 Handler mHandler = new Handler();
 
-                hideAllFloatButtons(1);
+                hideAllFloatButtons();
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {

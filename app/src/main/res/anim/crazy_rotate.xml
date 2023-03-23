@@ -1,0 +1,65 @@
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <rotate
+        android:duration="1000"
+        android:fromDegrees="360"
+        android:toDegrees="50"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+    <rotate
+        android:duration="1000"
+        android:startOffset="1000"
+        android:fromDegrees="50"
+        android:toDegrees="300"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+    <rotate
+        android:duration="1000"
+        android:startOffset="2000"
+        android:fromDegrees="300"
+        android:toDegrees="0"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+    <rotate
+        android:duration="1000"
+        android:startOffset="3000"
+        android:fromDegrees="0"
+        android:toDegrees="500"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+    <rotate
+        android:duration="1000"
+        android:startOffset="4000"
+        android:fromDegrees="500"
+        android:toDegrees="250"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+    <rotate
+        android:duration="1000"
+        android:startOffset="5000"
+        android:fromDegrees="250"
+        android:toDegrees="400"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+    <rotate
+        android:duration="1000"
+        android:startOffset="6000"
+        android:fromDegrees="400"
+        android:toDegrees="300"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+    <rotate
+        android:duration="1000"
+        android:startOffset="7000"
+        android:fromDegrees="300"
+        android:toDegrees="360"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+</set>
+
