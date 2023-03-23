@@ -39,6 +39,8 @@ public class PasswordCardFragment extends Fragment {
 
     private static final String ARG_PASSWORD_ID = "password_id";
 
+    private Typeface robotFontFamilyTypeface;
+
     private FloatingActionButton eyeFloatingActionButton;
     private FloatingActionButton leaveFloatingActionButton;
     private int animDurationDelay;
@@ -105,6 +107,10 @@ public class PasswordCardFragment extends Fragment {
         noteTextView.setFocusableInTouchMode(true);
     }
 
+    private void connectRobotFontFamily(){
+        robotFontFamilyTypeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_mono_regular);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -121,11 +127,7 @@ public class PasswordCardFragment extends Fragment {
         changeButton = view.findViewById(R.id.change_button_fp);
         deleteButton = view.findViewById(R.id.delete_button_fp);
 
-      //  Typeface typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_mono_regular);
-       // noteTextView.setTypeface(typeface);
-      //  passwordTextView.setTypeface(typeface);
-      //  Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_mono_regular.ttf");
-      //  passwordTextView.setTypeface(typeface);
+        connectRobotFontFamily();
 
 
         //Инициализация Fab
@@ -393,11 +395,11 @@ public class PasswordCardFragment extends Fragment {
 
 
         /**
-         *Переназначаю кнопку
+         *Переназначаю кнопку BACK
          */
         backButton.setText(getActivity().getResources().getString(R.string.chancel_button_text));
         backButton.setOnClickListener(ch -> {
-            passwordLab.deletePasswordById(passwordCard.getId());
+         //   if(!allFill()) passwordLab.deletePasswordById(passwordCard.getId());
             Handler mHandler = new Handler();
             hideAllFloatButtons(2);
             mHandler.postDelayed(new Runnable() {
@@ -516,11 +518,9 @@ public class PasswordCardFragment extends Fragment {
         } else {
             loginTextView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             passwordTextView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
         }
-        loginTextView.setTypeface(ResourcesCompat.getFont(getContext(), R.font.roboto_mono_regular));
-        loginTextView.setHorizontallyScrolling(false);
-        passwordTextView.setTypeface(ResourcesCompat.getFont(getContext(), R.font.roboto_mono_regular));
+        loginTextView.setTypeface(robotFontFamilyTypeface);
+        passwordTextView.setTypeface(robotFontFamilyTypeface);
     }
 
     private void setTextViewListeners(Boolean enable) {
