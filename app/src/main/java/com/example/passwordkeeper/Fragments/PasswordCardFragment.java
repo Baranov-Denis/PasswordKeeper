@@ -1,10 +1,12 @@
 package com.example.passwordkeeper.Fragments;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -118,6 +120,12 @@ public class PasswordCardFragment extends Fragment {
         backButton = view.findViewById(R.id.back_button_fp);
         changeButton = view.findViewById(R.id.change_button_fp);
         deleteButton = view.findViewById(R.id.delete_button_fp);
+
+      //  Typeface typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_mono_regular);
+       // noteTextView.setTypeface(typeface);
+      //  passwordTextView.setTypeface(typeface);
+      //  Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_mono_regular.ttf");
+      //  passwordTextView.setTypeface(typeface);
 
 
         //Инициализация Fab
@@ -501,13 +509,18 @@ public class PasswordCardFragment extends Fragment {
 
 
     private void setLoginAndPasswordVisible(boolean visible) {
+
         if (visible) {
             loginTextView.setInputType(InputType.TYPE_CLASS_TEXT);
             passwordTextView.setInputType(InputType.TYPE_CLASS_TEXT);
         } else {
             loginTextView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             passwordTextView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
         }
+        loginTextView.setTypeface(ResourcesCompat.getFont(getContext(), R.font.roboto_mono_regular));
+        loginTextView.setHorizontallyScrolling(false);
+        passwordTextView.setTypeface(ResourcesCompat.getFont(getContext(), R.font.roboto_mono_regular));
     }
 
     private void setTextViewListeners(Boolean enable) {
