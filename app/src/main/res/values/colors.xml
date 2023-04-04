@@ -10,9 +10,14 @@
 
     <color name="green">#298706</color>
     <color name="red">#840606</color>
-    <color name="yellow">#C2AA20</color>
+
     <color name="blue">#022DBA</color>
 
+    <color name="cian">#01f9e1</color>
+    <color name="yellow">#f9ce34</color>
+    <color name="deep_blue">#071633</color>
+
+    <color name="low_deep_blue">#142139</color>
 
 
 </resources>

@@ -30,7 +30,7 @@ public class PasswordLab {
     public static final String GLOBAL_TAG = "------>>>>";
 
     private static PasswordLab passwordLab;
-    private static String keyCode = "vacanda";
+    private static String keyCode = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
     private Context context;
     private SQLiteDatabase sqLiteDatabase;
     private SQLiteDatabase externalDatabase;

@@ -6,6 +6,8 @@ import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.content.Intent;
 
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -14,12 +16,15 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.example.passwordkeeper.PasswordLab.LeaveTimer;
 import com.example.passwordkeeper.PasswordLab.PasswordCard;
 import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
@@ -47,10 +53,13 @@ public class PasswordsListFragment extends Fragment {
     private FloatingActionButton leaveFloatingActionButton;
     private FloatingActionButton saveDBFloatingActionButton;
     private FloatingActionButton settingsFloatingActionButton;
+    private FloatingActionButton loadDBFloatingActionButton;
+    private FloatingActionButton changePasswordFloatingActionButton;
     private List<FloatingActionButton> fabList;
 
-    int animDurationDelay ;
+    private boolean isSettingsHide = true;
 
+    int animDurationDelay;
 
 
     private RecyclerView passwordRecyclerView;
@@ -71,7 +80,6 @@ public class PasswordsListFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_passwords_list, container, false);
 
 
-
         passwordRecyclerView = view.findViewById(R.id.password_recycler_view);
         passwordRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         passwordLab = PasswordLab.getLab(getContext());
@@ -82,17 +90,24 @@ public class PasswordsListFragment extends Fragment {
         //  AppFragmentManager.setAddButton(view, this.getActivity());
         initFab();
         setUpTargetForBackPressed();
-       // AppFragmentManager.setLeaveButton(view);
+
+        // AppFragmentManager.setLeaveButton(view);
         return view;
     }
 
 
-    private void initFab(){
+
+
+
+
+    private void initFab() {
         fabList = new ArrayList<>();
         fabList.add(setSettingsFab());
         fabList.add(setSavingDBFab());
         fabList.add(setAddButton());
         fabList.add(setLeaveButton());
+        fabList.add(setDBLoadingFab());
+        fabList.add(setChangePasswordFab());
 
     }
 
@@ -110,7 +125,7 @@ public class PasswordsListFragment extends Fragment {
                     public void run() {
                         AppFragmentManager.openFragment(new LoginFragment());
                     }
-                }, animDurationDelay );
+                }, animDurationDelay);
 
             }
         });
@@ -170,9 +185,6 @@ public class PasswordsListFragment extends Fragment {
         return addFloatingActionButton;
     }
 
-
-
-
     public FloatingActionButton setLeaveButton() {
 
         leaveFloatingActionButton = view.findViewById(R.id.fab_leave_button);
@@ -193,13 +205,13 @@ public class PasswordsListFragment extends Fragment {
             }, animDurationDelay);
         });
 
-        return  leaveFloatingActionButton;
+        return leaveFloatingActionButton;
     }
 
-    private FloatingActionButton setSavingDBFab(){
+    private FloatingActionButton setSavingDBFab() {
         saveDBFloatingActionButton = view.findViewById(R.id.fab_save_passwords_database);
         rollInFabButton(saveDBFloatingActionButton);
-        saveDBFloatingActionButton.setOnClickListener(l->{
+        saveDBFloatingActionButton.setOnClickListener(l -> {
             if (passwordLab.backUp()) {
                 Toast.makeText(getContext(), getActivity().getResources().getString(R.string.Backup_is_successful_to_SD_card), Toast.LENGTH_LONG).show();
                 Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.process_rolling_animation);
@@ -209,18 +221,74 @@ public class PasswordsListFragment extends Fragment {
         return saveDBFloatingActionButton;
     }
 
-    private FloatingActionButton setSettingsFab(){
+
+
+
+    private FloatingActionButton setSettingsFab() {
         settingsFloatingActionButton = view.findViewById(R.id.fab_settings);
         rollInFabButton(settingsFloatingActionButton);
-        settingsFloatingActionButton.setOnClickListener(l->{
+        settingsFloatingActionButton.setOnClickListener(l -> {
+            if(isSettingsHide) {
+                rollInFabButton(loadDBFloatingActionButton);
+                rollInFabButton(changePasswordFloatingActionButton);
                 Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.crazy_rotate);
                 settingsFloatingActionButton.startAnimation(rotateAnimation);
+                isSettingsHide = false;
+            }else{
+                hideOneFloatButtons(loadDBFloatingActionButton);
+                hideOneFloatButtons(changePasswordFloatingActionButton);
+                isSettingsHide = true;
+            }
         });
         return settingsFloatingActionButton;
     }
 
+    private FloatingActionButton setChangePasswordFab() {
+        changePasswordFloatingActionButton = view.findViewById(R.id.fab_change_password);
 
-    private void rollInFabButton(FloatingActionButton fab){
+        changePasswordFloatingActionButton.setOnClickListener(l -> {
+            Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.crazy_rotate);
+            changePasswordFloatingActionButton.startAnimation(rotateAnimation);
+            if(!PasswordLab.passwordIsWrongTestPasswordString()) {
+                AppFragmentManager.addFragment(new ChangePasswordFragment());
+            }else{
+                Toast.makeText(getContext(), R.string.change_password_denied, Toast.LENGTH_LONG).show();
+            }
+        });
+        return changePasswordFloatingActionButton;
+    }
+
+
+    private FloatingActionButton setDBLoadingFab() {
+        loadDBFloatingActionButton = view.findViewById(R.id.fab_load_backup);
+
+        loadDBFloatingActionButton.setOnClickListener(l -> {
+            Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.crazy_rotate);
+            loadDBFloatingActionButton.startAnimation(rotateAnimation);
+            loadDBFromBackup();
+        });
+        return loadDBFloatingActionButton;
+    }
+
+
+    private void loadDBFromBackup() {
+        if (Environment.isExternalStorageManager()) {
+            //todo when permission is granted
+            Intent intentForStartFileManager = new Intent(Intent.ACTION_GET_CONTENT);
+            intentForStartFileManager.setType("*/*");
+            someActivityResultLauncher.launch(intentForStartFileManager);
+        } else {
+            //request for the permission
+            Intent intent12 = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+            Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+            intent12.setData(uri);
+            startActivity(intent12);
+        }
+    }
+
+
+
+    private void rollInFabButton(FloatingActionButton fab) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -233,13 +301,24 @@ public class PasswordsListFragment extends Fragment {
 
     }
 
-    private void hideAllFloatButtons(){
-        for(FloatingActionButton fab : fabList){
-            if(fab.isOrWillBeShown())AppFragmentManager.hideFloatButton(fab,view);
+    private void hideAllFloatButtons() {
+        for (FloatingActionButton fab : fabList) {
+            if (fab.isOrWillBeShown()) AppFragmentManager.hideFloatButton(fab, view);
         }
     }
 
+    private void hideOneFloatButtons(FloatingActionButton fab) {
+        Handler mHandler = new Handler();
+        if (fab.isOrWillBeShown()) AppFragmentManager.hideFloatButton(fab, view);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fab.setVisibility(View.INVISIBLE);
+            }
+        }, animDurationDelay);
 
+
+    }
 
 
 
@@ -349,10 +428,12 @@ public class PasswordsListFragment extends Fragment {
     private class PasswordHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private PasswordCard passwordCard;
+        private final TextView resourceFirstLetter;
         private final TextView resourceNameTextView;
 
         public PasswordHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item, parent, false));
+            resourceFirstLetter = itemView.findViewById(R.id.first_letter);
             resourceNameTextView = itemView.findViewById(R.id.item_title);
             itemView.setOnClickListener(this);
         }
@@ -364,12 +445,14 @@ public class PasswordsListFragment extends Fragment {
 
             if (PasswordLab.passwordIsWrong(passwordCard)) {
                 resourceNameTextView.setText(getActivity().getResources().getString(R.string.access_denied));
+                resourceFirstLetter.setText("");
             } else {
                 String[] title = passwordCard.getResourceName().split("");
                 title[0] = title[0].toUpperCase(Locale.ROOT);
                 StringBuilder result = new StringBuilder();
-                for (String s : title) {
-                    result.append(s);
+                resourceFirstLetter.setText(title[0]);
+                for (int i = 1 ; i < title.length ; i++) {
+                    result.append(title[i]);
                 }
                 resourceNameTextView.setText(result);
             }

@@ -11,10 +11,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.passwordkeeper.MainActivity;
+import com.example.passwordkeeper.PasswordLab.LeaveTimer;
 import com.example.passwordkeeper.PasswordLab.PasswordCard;
 import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
@@ -24,6 +26,7 @@ public class LoginFragment extends Fragment {
 
     private View view;
     private AppCompatButton enterButton;
+    private AppCompatEditText passwordEditText;
     private FloatingActionButton helpFab;
 
 
@@ -34,15 +37,24 @@ public class LoginFragment extends Fragment {
         createEnterButton();
         AppFragmentManager.closeApp(this);
         setHelpFabButton();
+        LeaveTimer.chancelTimer();
         return view;
     }
 
     private void createEnterButton() {
         enterButton = view.findViewById(R.id.enter_button);
         enterButton.setOnClickListener(o -> {
+            passwordEditText = view.findViewById(R.id.enter_key_edit_text_fk);
+            String password = passwordEditText.getText().toString();
+            if(!password.equals("")) {
+                PasswordLab.setKeyCode(password);
+            }else {
+                PasswordLab.setKeyCode("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            }
             AppFragmentManager.openFragment(new PasswordsListFragment());
         });
     }
+
 
     public void setHelpFabButton() {
         helpFab = view.findViewById(R.id.fab_help_button);

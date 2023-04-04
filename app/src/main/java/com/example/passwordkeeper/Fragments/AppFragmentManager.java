@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.passwordkeeper.MainActivity;
+import com.example.passwordkeeper.PasswordLab.LeaveTimer;
 import com.example.passwordkeeper.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -27,26 +28,29 @@ public class AppFragmentManager {
         // Добавление транзакции в back stack для того чтобы пользователь мог вернуться к предыдущему фрагменту при нажатии кнопки "Назад"
         transaction.addToBackStack(null);
 
+        LeaveTimer.runLeaveTimer();
         // Завершение транзакции
         transaction.commit();
     }
 
-    /*public static void addFragment(Fragment fragment) {
+
+
+    public static void addFragment(Fragment fragment) {
 
         FragmentTransaction transaction = MainActivity.fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.fade_in_500, R.anim.fade_out_500, R.anim.fade_in_500, R.anim.fade_out_500);
 
+        transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
         // добавление нового фрагмента в транзакцию
         transaction.add(R.id.main_container_for_all_fragments, fragment);
 
-
         // Добавление транзакции в back stack для того чтобы пользователь мог вернуться к предыдущему фрагменту при нажатии кнопки "Назад"
-        // transaction.addToBackStack(null);
+        transaction.addToBackStack(null);
 
+        LeaveTimer.runLeaveTimer();
         // Завершение транзакции
         transaction.commit();
     }
-*/
+
 
     /*public static void setUpTargetForBackPressed(Fragment currentFragment, Fragment targetFragment) {
         currentFragment.requireActivity().getOnBackPressedDispatcher().addCallback(currentFragment.getViewLifecycleOwner(), new OnBackPressedCallback(true) {
@@ -122,7 +126,9 @@ public class AppFragmentManager {
                 Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.hide_anim_for_fab);
                 fab.startAnimation(rotateAnimation);
             }
+
         }, animDurationDelay + 10);
+
     }
 
 

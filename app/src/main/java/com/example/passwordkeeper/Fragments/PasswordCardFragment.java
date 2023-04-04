@@ -60,6 +60,8 @@ public class PasswordCardFragment extends Fragment {
 
     private PasswordLab passwordLab;
 
+    private boolean isShowed = false;
+
     public static PasswordCardFragment newInstance(UUID passwordId) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_PASSWORD_ID, passwordId);
@@ -284,6 +286,8 @@ public class PasswordCardFragment extends Fragment {
          /*   FragmentManager fragmentManager = getParentFragmentManager();
             DeleteDialogFragment newFragment = DeleteDialogFragment.newInstance(passwordCard.getId().toString());
             newFragment.show(fragmentManager, DeleteDialogFragment.DELETE);*/
+            passwordLab.deletePasswordById(passwordCard.getId());
+            goToPasswordListActivity();
         });
 
 
@@ -422,7 +426,6 @@ public class PasswordCardFragment extends Fragment {
 
                 eyeFloatingActionButton.hide();
                 Handler mHandler = new Handler();
-
                 hideAllFloatButtons();
                 mHandler.postDelayed(new Runnable() {
                     @Override
@@ -452,7 +455,19 @@ public class PasswordCardFragment extends Fragment {
             }
         }, animDurationDelay);
 
-        eyeFloatingActionButton.setOnTouchListener(new View.OnTouchListener() {
+        eyeFloatingActionButton.setOnClickListener(e -> {
+            if (isShowed) {
+                setLoginAndPasswordVisible(false);
+                isShowed = false;
+            } else {
+                setLoginAndPasswordVisible(true);
+                isShowed = true;
+            }
+            Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.just_one_rotate);
+            eyeFloatingActionButton.startAnimation(rotateAnimation);
+        });
+
+   /*     eyeFloatingActionButton.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -472,7 +487,7 @@ public class PasswordCardFragment extends Fragment {
                 return false;
             }
 
-        });
+        });*/
 
     }
 

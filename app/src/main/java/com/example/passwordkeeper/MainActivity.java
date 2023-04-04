@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 
 
 import com.example.passwordkeeper.Fragments.LoginFragment;
+import com.example.passwordkeeper.PasswordLab.LeaveTimer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,9 +29,16 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         animationDelay = getResources().getInteger(R.integer.fab_animation_duration);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.main_container_for_all_fragments,loginFragment);
+        fragmentTransaction.replace(R.id.main_container_for_all_fragments,loginFragment);
         fragmentTransaction.commit();
     }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        LeaveTimer.resetTimer();
+    }
+
 
 
 }
