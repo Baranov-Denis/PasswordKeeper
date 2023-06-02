@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import android.os.Handler;
 import android.text.InputType;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -23,7 +22,7 @@ import android.widget.Toast;
 
 //import com.google.api.services.drive.model.File;
 
-import com.example.passwordkeeper.CustomToast.MyToast;
+import com.example.passwordkeeper.PasswordLab.AppPlugins;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Date;
@@ -75,12 +74,15 @@ public class PasswordCardFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID passwordId = (UUID) getArguments().getSerializable(PasswordCardFragment.ARG_PASSWORD_ID);
         passwordLab = PasswordLab.getLab(getActivity());
-        passwordCard = passwordLab.getPasswordCard(passwordId);
+        passwordCard = passwordLab.getPasswordCardByUUID(passwordId);
         animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
     }
 
 
     private void hideAllFloatButtons() {
+        //Скрываю клавиатуру
+        AppPlugins.hideKeyboard(requireContext(),view);
+
         if (leaveFloatingActionButton.isOrWillBeShown())
             AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
         if (eyeFloatingActionButton.isOrWillBeShown())
@@ -134,7 +136,7 @@ public class PasswordCardFragment extends Fragment {
         eyeFloatingActionButton = view.findViewById(R.id.fab_eye_button);
         leaveFloatingActionButton = view.findViewById(R.id.fab_leave_button);
 
-        if (PasswordLab.passwordIsWrong(passwordCard)) {
+        if (passwordLab.passwordIsWrong()) {
             resourceNameTextView.setText(getActivity().getResources().getString(R.string.access_denied));
             loginTextView.setText(getActivity().getResources().getString(R.string.access_denied));
             passwordTextView.setText(getActivity().getResources().getString(R.string.access_denied));
@@ -286,8 +288,9 @@ public class PasswordCardFragment extends Fragment {
          /*   FragmentManager fragmentManager = getParentFragmentManager();
             DeleteDialogFragment newFragment = DeleteDialogFragment.newInstance(passwordCard.getId().toString());
             newFragment.show(fragmentManager, DeleteDialogFragment.DELETE);*/
-            passwordLab.deletePasswordById(passwordCard.getId());
-            goToPasswordListActivity();
+            AppFragmentManager.addFragment(new DeleteDialogConfirmationFragment(passwordCard));
+           // passwordLab.deletePasswordById(passwordCard.getId());
+           // goToPasswordListActivity();
         });
 
 
@@ -295,7 +298,7 @@ public class PasswordCardFragment extends Fragment {
          * Back button
          */
         backButton.setOnClickListener(b -> {
-            if (!PasswordLab.passwordIsWrong(passwordCard)) {
+            if (!passwordLab.passwordIsWrong()) {
                 passwordLab.updatePasswordCard(passwordCard);
             }
             Handler mHandler = new Handler();
@@ -565,7 +568,7 @@ public class PasswordCardFragment extends Fragment {
         if (passwordCard == null || passwordCard.getPassword() == null) {
             passwordLab.deletePasswordById(passwordCard.getId());
         }
-        if (!PasswordLab.passwordIsWrong(passwordCard)) {
+        if (!passwordLab.passwordIsWrong()) {
             passwordLab.updatePasswordCard(passwordCard);
         }
     }

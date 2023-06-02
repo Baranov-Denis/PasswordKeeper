@@ -84,8 +84,8 @@ public class PasswordsListFragment extends Fragment {
         passwordRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         passwordLab = PasswordLab.getLab(getContext());
         updateUI();
-        animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
-
+        //animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
+        animDurationDelay = 1;
 
         //  AppFragmentManager.setAddButton(view, this.getActivity());
         initFab();
@@ -249,7 +249,7 @@ public class PasswordsListFragment extends Fragment {
         changePasswordFloatingActionButton.setOnClickListener(l -> {
             Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.crazy_rotate);
             changePasswordFloatingActionButton.startAnimation(rotateAnimation);
-            if(!PasswordLab.passwordIsWrongTestPasswordString()) {
+           if(!passwordLab.passwordIsWrongTestPasswordString()) {
                 AppFragmentManager.addFragment(new ChangePasswordFragment());
             }else{
                 Toast.makeText(getContext(), R.string.change_password_denied, Toast.LENGTH_LONG).show();
@@ -272,17 +272,19 @@ public class PasswordsListFragment extends Fragment {
 
 
     private void loadDBFromBackup() {
-        if (Environment.isExternalStorageManager()) {
-            //todo when permission is granted
-            Intent intentForStartFileManager = new Intent(Intent.ACTION_GET_CONTENT);
-            intentForStartFileManager.setType("*/*");
-            someActivityResultLauncher.launch(intentForStartFileManager);
-        } else {
-            //request for the permission
-            Intent intent12 = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-            Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-            intent12.setData(uri);
-            startActivity(intent12);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (Environment.isExternalStorageManager()) {
+                //todo when permission is granted
+                Intent intentForStartFileManager = new Intent(Intent.ACTION_GET_CONTENT);
+                intentForStartFileManager.setType("*/*");
+                someActivityResultLauncher.launch(intentForStartFileManager);
+            } else {
+                //request for the permission
+                Intent intent12 = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+                intent12.setData(uri);
+                startActivity(intent12);
+            }
         }
     }
 
@@ -443,7 +445,7 @@ public class PasswordsListFragment extends Fragment {
 
             this.passwordCard = passwordCard;
 
-            if (PasswordLab.passwordIsWrong(passwordCard)) {
+            if (passwordLab.passwordIsWrong()) {
                 resourceNameTextView.setText(getActivity().getResources().getString(R.string.access_denied));
                 resourceFirstLetter.setText("");
             } else {

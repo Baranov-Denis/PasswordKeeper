@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.example.passwordkeeper.PasswordLab.PasswordCard;
 import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
 
@@ -51,6 +52,7 @@ public class ChangePasswordFragment extends Fragment {
             String confirmNewPasswordString = confirmNewPassword.getText().toString();
             if(newPasswordString.equals(confirmNewPasswordString)&&newPasswordString.length()>3){
                 passwordLab.reloadAllCardsWithNewPassword(newPasswordString);
+                changeTestPhrase();
                AppFragmentManager.openFragment(new PasswordsListFragment());
             }
 
@@ -61,4 +63,12 @@ public class ChangePasswordFragment extends Fragment {
         });
     }
 
+    private void changeTestPhrase(){
+        PasswordCard serviceCard = new PasswordCard();
+        serviceCard.setResourceName(passwordLab.TEST_PHRASE);
+        serviceCard.setLogin(passwordLab.TEST_PHRASE);
+        serviceCard.setPassword("----");
+        serviceCard.setNote("note");
+        passwordLab.addServiceLine(serviceCard);
+    }
 }

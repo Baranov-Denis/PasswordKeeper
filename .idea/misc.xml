@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -16,7 +15,7 @@
         <entry key="..\:/Projects/Android/PasswordKeeper/app/src/main/res/layout/change_password_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/Projects/Android/PasswordKeeper/app/src/main/res/layout/fragment_change_password.xml" value="0.33" />
         <entry key="..\:/Projects/Android/PasswordKeeper/app/src/main/res/layout/fragment_hot_key_buttons.xml" value="0.36666666666666664" />
-        <entry key="..\:/Projects/Android/PasswordKeeper/app/src/main/res/layout/fragment_login.xml" value="0.5" />
+        <entry key="..\:/Projects/Android/PasswordKeeper/app/src/main/res/layout/fragment_login.xml" value="0.25" />
         <entry key="..\:/Projects/Android/PasswordKeeper/app/src/main/res/layout/fragment_password_card.xml" value="0.33" />
         <entry key="..\:/Projects/Android/PasswordKeeper/app/src/main/res/layout/fragment_passwords_list.xml" value="0.33" />
         <entry key="..\:/Projects/Android/PasswordKeeper/app/src/main/res/layout/list_item.xml" value="0.33" />
@@ -25,7 +24,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -35,11 +35,6 @@ public class PasswordCursorWrapper extends CursorWrapper {
         String dateString = getString(getColumnIndex(PasswordTable.Cols.DATE));
         try {
             passwordCard = new PasswordCard(UUID.fromString(uuidString));
-//        passwordCard.setResourceName(resourceNameString);
-//        passwordCard.setLogin(loginString);
-//        passwordCard.setPassword(passwordString);
-//        passwordCard.setNote(noteString);
-//        passwordCard.setDate(dateString);
 
             passwordCard.setResourceName(Cipher.decrypt(PasswordLab.getKeyCode(), resourceNameString));
             passwordCard.setLogin(Cipher.decrypt(PasswordLab.getKeyCode(), loginString));

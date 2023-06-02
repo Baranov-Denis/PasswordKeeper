@@ -89,7 +89,7 @@
         android:layout_gravity="top|end"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:src="@mipmap/escape_fab_new"
+        android:src="@mipmap/fab_flat_help"
         app:tint="@null"
         app:maxImageSize="60dp"
         app:backgroundTint="@null"
