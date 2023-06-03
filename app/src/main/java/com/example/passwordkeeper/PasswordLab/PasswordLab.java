@@ -11,12 +11,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.example.passwordkeeper.cipher.Cipher;
 import com.example.passwordkeeper.database.ExternalBaseHelper;
@@ -28,9 +33,9 @@ public class PasswordLab {
 
     public static final String GLOBAL_TAG = "------>>>>";
 
-    public final String TEST_PHRASE = "this_is_a_phrase_for_testing_password_!@#$%^&*()";
 
     private static PasswordLab passwordLab;
+    public String testPassword =".fhrjduJGH950j_(@*#&";
     private static String keyCode = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
     private Context context;
     private SQLiteDatabase sqLiteDatabase;
@@ -94,7 +99,9 @@ public class PasswordLab {
             cursor.close();
         }
 
-        Collections.sort(passwordCards);
+        if(passwordCards.size()>1) {
+            Collections.sort(passwordCards);
+        }
 
 
         return passwordCards;
@@ -115,21 +122,6 @@ public class PasswordLab {
         }
     }
 
-    public PasswordCard getPasswordCardForTestingPassword() {
-
-        try (PasswordCursorWrapper cursor = queryPasswords(
-                PasswordTable.Cols.RESOURCE_NAME + " = ?",
-                new String[]{passwordLab.TEST_PHRASE}
-        )) {
-            if (cursor.getCount() == 0) {
-                return null;
-            }
-
-            cursor.moveToFirst();
-            return cursor.getPasswordCard();
-        }
-    }
-
 
     public void deletePasswordById(UUID id) {
         sqLiteDatabase.delete(PasswordTable.NAME, PasswordTable.Cols.UUID + "= ?", new String[]{id.toString()});
@@ -137,28 +129,19 @@ public class PasswordLab {
 
 
     public boolean passwordIsWrong() {
-       /* StringBuilder nameString = new StringBuilder();
-        nameString.append(passwordCard.getResourceName());
-        nameString.append(passwordCard.getLogin());
-        nameString.append(passwordCard.getPassword());
-        nameString.append(passwordCard.getDate());
-        int charTest = 0;
-        for (int i = 0; i < nameString.length(); i++) {
-            charTest = nameString.charAt(i);
-            if (charTest < 32 || (charTest > 126 && charTest < 1040) || charTest > 1104) {
-                return true;
-            }
-        }
-        return false;*/
-        PasswordCard pasCard = getPasswordCardForTestingPassword();
-        if(pasCard.getLogin().equals(passwordLab.TEST_PHRASE)) {
-            return false;
-        } else{ return true;}
-    }
+        List<PasswordCard> passwords = getPasswords();
+        if(passwords.size() != 0) {
+            PasswordCard pasCard = passwords.get(0);
+            String regex = "\\d{2}:\\d{2}:\\d{2} \\d{2}-\\d{2}-\\d{4}";
 
-    public  boolean passwordIsWrongTestPasswordString() {
-        PasswordCard passwordCard = passwordLab.getPasswords().get(0);
-        return passwordIsWrong();
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(pasCard.getDate());
+            Log.i("00000", "==== " + pasCard.getDate());
+            if (matcher.matches()) return false;
+            else return true;
+        }else {
+            return false;
+        }
     }
 
 
@@ -174,20 +157,6 @@ public class PasswordLab {
         return values;
     }
 
-    private static ContentValues getContentValuesForServiceLine(PasswordCard passwordCard) {
-        ContentValues values = new ContentValues();
-
-        values.put(PasswordTable.Cols.UUID, passwordCard.getId().toString());
-        //RESOURCE_NAME не закодирован для кодового слова
-        values.put(PasswordTable.Cols.RESOURCE_NAME, passwordCard.getResourceName());
-        //LOGIN закодирован для проверки пароля
-        values.put(PasswordTable.Cols.LOGIN, Cipher.encrypt(keyCode, passwordCard.getLogin()));
-        values.put(PasswordTable.Cols.PASSWORD, Cipher.encrypt(keyCode, passwordCard.getPassword()));
-        //NOTE не закодирован подсказка
-        values.put(PasswordTable.Cols.NOTE, passwordCard.getNote());
-        values.put(PasswordTable.Cols.DATE, Cipher.encrypt(keyCode, passwordCard.getDate()));
-        return values;
-    }
 
     public void addPasswordCard(PasswordCard passwordCard) {
         ContentValues values = getContentValues(passwordCard);
@@ -205,19 +174,8 @@ public class PasswordLab {
                 new String[]{uuidString});
     }
 
-    public void addServiceLine(PasswordCard passwordCard) {
-        ContentValues values = getContentValuesForServiceLine(passwordCard);
-        if (getPasswordCardByUUID(passwordCard.getId()) == null) {
-            sqLiteDatabase.insert(PasswordTable.NAME, null, values);
-        }
-    }
 
-    public void updateServiceLine(PasswordCard passwordCard) {
-        String uuidString = passwordCard.getId().toString();
-        ContentValues values = getContentValuesForServiceLine(passwordCard);
-        sqLiteDatabase.update(PasswordTable.NAME, values, PasswordTable.Cols.UUID + " = ?",
-                new String[]{uuidString});
-    }
+
 
     public void reloadAllCardsWithNewPassword(String newPassword) {
         PasswordCard passwordCard;
@@ -227,7 +185,6 @@ public class PasswordLab {
         for (int i = 0; i < oldCards.size(); i++) {
             passwordCard = (PasswordCard) oldCards.get(i);
             updatePasswordCard(passwordCard);
-
         }
     }
 

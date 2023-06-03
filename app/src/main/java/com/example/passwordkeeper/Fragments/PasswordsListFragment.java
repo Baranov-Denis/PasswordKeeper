@@ -249,7 +249,7 @@ public class PasswordsListFragment extends Fragment {
         changePasswordFloatingActionButton.setOnClickListener(l -> {
             Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.crazy_rotate);
             changePasswordFloatingActionButton.startAnimation(rotateAnimation);
-           if(!passwordLab.passwordIsWrongTestPasswordString()) {
+           if(!passwordLab.passwordIsWrong()) {
                 AppFragmentManager.addFragment(new ChangePasswordFragment());
             }else{
                 Toast.makeText(getContext(), R.string.change_password_denied, Toast.LENGTH_LONG).show();
@@ -449,14 +449,16 @@ public class PasswordsListFragment extends Fragment {
                 resourceNameTextView.setText(getActivity().getResources().getString(R.string.access_denied));
                 resourceFirstLetter.setText("");
             } else {
-                String[] title = passwordCard.getResourceName().split("");
-                title[0] = title[0].toUpperCase(Locale.ROOT);
-                StringBuilder result = new StringBuilder();
-                resourceFirstLetter.setText(title[0]);
-                for (int i = 1 ; i < title.length ; i++) {
-                    result.append(title[i]);
-                }
-                resourceNameTextView.setText(result);
+if(passwordCard.getResourceName()!=null) {
+    String[] title = passwordCard.getResourceName().split("");
+    title[0] = title[0].toUpperCase(Locale.ROOT);
+    StringBuilder result = new StringBuilder();
+    resourceFirstLetter.setText(title[0]);
+    for (int i = 1; i < title.length; i++) {
+        result.append(title[i]);
+    }
+    resourceNameTextView.setText(result);
+}
             }
         }
 

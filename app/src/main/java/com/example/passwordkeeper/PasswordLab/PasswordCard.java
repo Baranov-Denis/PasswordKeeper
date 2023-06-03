@@ -38,6 +38,10 @@ public class PasswordCard implements Comparable<PasswordCard> {
         return id;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public String getResourceName() {
         return resourceName;
     }
@@ -73,6 +77,17 @@ public class PasswordCard implements Comparable<PasswordCard> {
 
     @Override
     public int compareTo(PasswordCard o) {
-        return this.getResourceName().toLowerCase(Locale.ROOT).compareTo(o.getResourceName().toLowerCase());
+        String thisResourceName = getResourceName();
+        String oResourceName = o.getResourceName();
+        if (thisResourceName == null && oResourceName == null) {
+            return 0; // Оба объекта имеют пустые имена ресурсов
+        } else if (thisResourceName == null) {
+            return -1; // Текущий объект имеет пустое имя ресурса
+        } else if (oResourceName == null) {
+            return 1; // Объект 'o' имеет пустое имя ресурса
+        } else {
+            return thisResourceName.toLowerCase(Locale.ROOT).compareTo(oResourceName.toLowerCase(Locale.ROOT));
+        }
+      //  return this.getResourceName().toLowerCase(Locale.ROOT).compareTo(o.getResourceName().toLowerCase());
     }
 }

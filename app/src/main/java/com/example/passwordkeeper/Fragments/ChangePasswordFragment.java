@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +37,6 @@ public class ChangePasswordFragment extends Fragment {
     }
 
 
-
-
-
     private void setButtons() {
 
         newPassword = view.findViewById(R.id.new_password_text_view);
@@ -50,25 +48,17 @@ public class ChangePasswordFragment extends Fragment {
         agreeButton.setOnClickListener(a -> {
             String newPasswordString = newPassword.getText().toString();
             String confirmNewPasswordString = confirmNewPassword.getText().toString();
-            if(newPasswordString.equals(confirmNewPasswordString)&&newPasswordString.length()>3){
+            if (newPasswordString.equals(confirmNewPasswordString) && newPasswordString.length() > 3) {
                 passwordLab.reloadAllCardsWithNewPassword(newPasswordString);
-                changeTestPhrase();
-               AppFragmentManager.openFragment(new PasswordsListFragment());
+                AppFragmentManager.openFragment(new PasswordsListFragment());
             }
 
         });
 
-        chancelButton.setOnClickListener(e->{
+        chancelButton.setOnClickListener(e -> {
             AppFragmentManager.openFragment(new PasswordsListFragment());
         });
     }
 
-    private void changeTestPhrase(){
-        PasswordCard serviceCard = new PasswordCard();
-        serviceCard.setResourceName(passwordLab.TEST_PHRASE);
-        serviceCard.setLogin(passwordLab.TEST_PHRASE);
-        serviceCard.setPassword("----");
-        serviceCard.setNote("note");
-        passwordLab.addServiceLine(serviceCard);
-    }
+
 }

@@ -46,4 +46,27 @@ public class PasswordCursorWrapper extends CursorWrapper {
         }
         return passwordCard;
     }
+
+    public PasswordCard getPasswordCardForServiceLine() {
+        PasswordCard passwordCard = null;
+
+        String uuidString = getString(getColumnIndex(PasswordTable.Cols.UUID));
+        String resourceNameString = getString(getColumnIndex(PasswordTable.Cols.RESOURCE_NAME));
+        String loginString = getString(getColumnIndex(PasswordTable.Cols.LOGIN));
+        String passwordString = getString(getColumnIndex(PasswordTable.Cols.PASSWORD));
+        String noteString = getString(getColumnIndex(PasswordTable.Cols.NOTE));
+        String dateString = getString(getColumnIndex(PasswordTable.Cols.DATE));
+        try {
+            passwordCard = new PasswordCard(UUID.fromString(uuidString));
+
+            passwordCard.setResourceName(resourceNameString);
+            passwordCard.setLogin(Cipher.decrypt(PasswordLab.getKeyCode(), loginString));
+            passwordCard.setPassword(Cipher.decrypt(PasswordLab.getKeyCode(), passwordString));
+            passwordCard.setNote(noteString);
+            passwordCard.setDate(Cipher.decrypt(PasswordLab.getKeyCode(), dateString));
+        } catch (Exception e) {
+
+        }
+        return passwordCard;
+    }
 }

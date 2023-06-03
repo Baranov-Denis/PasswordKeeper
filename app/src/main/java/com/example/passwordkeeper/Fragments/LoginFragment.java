@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,21 +56,6 @@ public class LoginFragment extends Fragment {
             if(!password.equals("")) {
                 PasswordLab.setKeyCode(password);
 
-                if(passwordLab.getPasswordCardForTestingPassword() == null){
-
-
-
-
-                    PasswordCard serviceCard = new PasswordCard();
-                    serviceCard.setResourceName(passwordLab.TEST_PHRASE);
-                    serviceCard.setLogin(passwordLab.TEST_PHRASE);
-                    serviceCard.setPassword("----");
-                    serviceCard.setNote("note");
-                    passwordLab.addServiceLine(serviceCard);
-                }else{
-
-
-                }
             }else {
                 PasswordLab.setKeyCode("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             }
