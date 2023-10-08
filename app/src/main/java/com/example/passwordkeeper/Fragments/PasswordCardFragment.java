@@ -81,7 +81,7 @@ public class PasswordCardFragment extends Fragment {
 
     private void hideAllFloatButtons() {
         //Скрываю клавиатуру
-        AppPlugins.hideKeyboard(requireContext(),view);
+        AppPlugins.hideKeyboard(requireContext(), view);
 
         if (leaveFloatingActionButton.isOrWillBeShown())
             AppFragmentManager.hideFloatButton(leaveFloatingActionButton, view);
@@ -289,8 +289,8 @@ public class PasswordCardFragment extends Fragment {
             DeleteDialogFragment newFragment = DeleteDialogFragment.newInstance(passwordCard.getId().toString());
             newFragment.show(fragmentManager, DeleteDialogFragment.DELETE);*/
             AppFragmentManager.addFragment(new DeleteDialogConfirmationFragment(passwordCard));
-           // passwordLab.deletePasswordById(passwordCard.getId());
-           // goToPasswordListActivity();
+            // passwordLab.deletePasswordById(passwordCard.getId());
+            // goToPasswordListActivity();
         });
 
 
@@ -394,7 +394,7 @@ public class PasswordCardFragment extends Fragment {
          */
         deleteButton.setText(getActivity().getResources().getString(R.string.Generate));
         deleteButton.setOnClickListener(del -> {
-            passwordTextView.setText(PasswordGenerator.generate());
+            passwordTextView.setText(PasswordGenerator.generate(requireContext()));
         });
 
 
@@ -425,7 +425,7 @@ public class PasswordCardFragment extends Fragment {
                 passwordLab.updatePasswordCard(passwordCard);
                 Toast toast = Toast.makeText(getActivity(), passwordCard.getResourceName() + " " + getActivity().getResources().getString(R.string.password_saved), Toast.LENGTH_SHORT);
                 toast.show();
-
+                passwordLab.saveDataBaseToDropbox(getContext(), getActivity());
 
                 eyeFloatingActionButton.hide();
                 Handler mHandler = new Handler();

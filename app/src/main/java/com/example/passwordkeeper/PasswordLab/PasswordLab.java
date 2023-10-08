@@ -1,11 +1,13 @@
 package com.example.passwordkeeper.PasswordLab;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,6 +25,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.example.passwordkeeper.DropBoxHelper.DropBoxHelper;
+import com.example.passwordkeeper.R;
 import com.example.passwordkeeper.cipher.Cipher;
 import com.example.passwordkeeper.database.ExternalBaseHelper;
 import com.example.passwordkeeper.database.PasswordBaseHelper;
@@ -41,6 +45,7 @@ public class PasswordLab {
     private SQLiteDatabase sqLiteDatabase;
     private SQLiteDatabase externalDatabase;
 
+    private DropBoxHelper dropBoxHelper;
 
     public static String getKeyCode() {
         return keyCode;
@@ -59,6 +64,7 @@ public class PasswordLab {
 
     private PasswordLab(Context context) {
         context = context.getApplicationContext();
+        dropBoxHelper = DropBoxHelper.getDropboxHelper(context);
         sqLiteDatabase = new PasswordBaseHelper(context).getWritableDatabase();
         externalDatabase = null;
     }
@@ -236,14 +242,15 @@ public class PasswordLab {
                         Environment.DIRECTORY_DOCUMENTS), "Password keeper");
                 on.mkdirs();
                 //Имя файла
-                LocalDate currentDate = LocalDate.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
-                String formattedDate = currentDate.format(formatter);
-                StringBuilder outputFileName = new StringBuilder("/keeper_backup_");
-                outputFileName.append(formattedDate);
-                outputFileName.append(".db");
-                // File backupDBFile = new File(on, "/keeper_backup.db");
-                File backupDBFile = new File(on, outputFileName.toString());
+               // LocalDate currentDate = LocalDate.now();
+                //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
+              //  String formattedDate = currentDate.format(formatter);
+                //StringBuilder outputFileName = new StringBuilder("/keeper_backup_");
+              //  outputFileName.append(formattedDate);
+            //    outputFileName.append(".db");
+
+                 File backupDBFile = new File(on, "/keeper_backup.db");
+               // File backupDBFile = new File(on, outputFileName.toString());
 
                 if (currentDB.exists()) {
                     FileChannel src = new FileInputStream(currentDB).getChannel();
@@ -263,6 +270,45 @@ public class PasswordLab {
             Log.i(PasswordLab.GLOBAL_TAG, e.getMessage());
         }
         return false;
+    }
+
+    public void saveDataBaseToDropbox(Context context, Activity activity){
+        if (backUp()) {
+            Toast.makeText(context, activity.getResources().getString(R.string.Backup_is_successful_to_phone_storage), Toast.LENGTH_LONG).show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+
+                        // Ваш код, который требует интернет-соединения
+                        // Например, попытка выполнить операции с Dropbox
+                        if (dropBoxHelper.uploadDatabaseToDropbox()) {
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, activity.getResources().getString(R.string.File_successfully_added_to_dropbox), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, activity.getResources().getString(R.string.Something_went_wrong_file_does_not_saved), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        // Обработка ошибки отсутствия интернет-соединения
+                        // Здесь можно выполнить действия, чтобы сообщить пользователю о проблеме
+                        // Например, показать диалоговое окно с предупреждением
+                        // или отобразить сообщение об ошибке в интерфейсе пользователя
+                        e.printStackTrace(); // Это позволяет записать информацию об ошибке в логи для отладки
+                    }
+
+                }
+            }).start();
+        }else {
+            Toast.makeText(context, "activity.getResources().getString(R.string.Backup_is_failed)", Toast.LENGTH_LONG).show();
+        }
     }
 
 }

@@ -15,9 +15,8 @@
 
     <color name="cian">#01f9e1</color>
     <color name="yellow">#f9ce34</color>
-    <color name="deep_blue">#071633</color>
-
-    <color name="low_deep_blue">#142139</color>
+    <color name="deep_blue">#033E3C</color>
+    <color name="low_deep_blue">#07B3AD</color>
 
 
 </resources>

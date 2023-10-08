@@ -1,5 +1,9 @@
 package com.example.passwordkeeper.PasswordLab;
 
+import android.content.Context;
+
+import com.example.passwordkeeper.DropBoxHelper.SharedPreferencesHelper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -12,7 +16,7 @@ public class PasswordGenerator {
     //Список символов
     private static ArrayList<Character> symbolsList;
     //Длина пароля
-    private final static int passwordLength = 20;
+    private static int passwordLength = 20;
 
 
 
@@ -27,10 +31,11 @@ public class PasswordGenerator {
         PasswordGenerator.vowelCharacter = vowelCharacter;
     }
 
-    public static String generate() {
+    public static String generate(Context context) {
+        if(SharedPreferencesHelper.getData(context).getPasswordLength()!=null) {
+            passwordLength = Integer.parseInt(SharedPreferencesHelper.getData(context).getPasswordLength());
+        }else passwordLength = 1;
         listInitiation();
-
-
         StringBuilder password = new StringBuilder();
 
         char tempChar;

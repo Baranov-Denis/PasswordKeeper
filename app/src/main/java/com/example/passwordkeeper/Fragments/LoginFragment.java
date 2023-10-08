@@ -48,6 +48,10 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+    private void setPasswordGeneratorLength(){
+
+    }
+
     private void createEnterButton() {
         enterButton = view.findViewById(R.id.enter_button);
         enterButton.setOnClickListener(o -> {

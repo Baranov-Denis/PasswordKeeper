@@ -99,7 +99,7 @@ public class PasswordsListFragment extends Fragment {
     private void initFab() {
         fabList = new ArrayList<>();
         fabList.add(setSettingsFab());
-        fabList.add(setSavingDBFab());
+        //fabList.add(setSavingDBFab());
         fabList.add(setAddButton());
         fabList.add(setLeaveButton());
         fabList.add(setDBLoadingFab());
@@ -204,7 +204,7 @@ public class PasswordsListFragment extends Fragment {
         return leaveFloatingActionButton;
     }
 
-    private FloatingActionButton setSavingDBFab() {
+    /*private FloatingActionButton setSavingDBFab() {
         saveDBFloatingActionButton = view.findViewById(R.id.fab_save_passwords_database);
         rollInFabButton(saveDBFloatingActionButton);
         saveDBFloatingActionButton.setOnClickListener(l -> {
@@ -215,13 +215,15 @@ public class PasswordsListFragment extends Fragment {
             }
         });
         return saveDBFloatingActionButton;
-    }
+    }*/
 
     private FloatingActionButton setSettingsFab() {
         settingsFloatingActionButton = view.findViewById(R.id.fab_settings);
         rollInFabButton(settingsFloatingActionButton);
         settingsFloatingActionButton.setOnClickListener(l -> {
-            AppFragmentManager.openFragment(new SettingsFragment());
+            if(!passwordLab.passwordIsWrong()) {
+                AppFragmentManager.openFragment(new SettingsFragment());
+            }
 
           /*  if (isSettingsHide) {
                 rollInFabButton(loadDBFloatingActionButton);

@@ -53,4 +53,12 @@
     <string name="Enter_token">Enter token</string>
     <string name="enter_token_hint">Enter token</string>
     <string name="Save_and_send_database">Save and send database</string>
+    <string name="Token_was_successfully_updated">Token was successfully updated!!!</string>
+    <string name="Backup_is_successful_to_phone_storage">Backup is successfull to phone storage!</string>
+    <string name="File_successfully_added_to_dropbox">File successfully sent to dropbox!</string>
+    <string name="Something_went_wrong_file_does_not_saved">Something went wrong file does not saved</string>
+    <string name="enter_password_length_hint">Enter password length</string>
+    <string name="Password_length">Password length</string>
+    <string name="Save_password_length">Save password length</string>
+    <string name="Load_database">Load database</string>
 </resources>
