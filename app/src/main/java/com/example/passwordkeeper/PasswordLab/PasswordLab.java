@@ -231,7 +231,7 @@ public class PasswordLab {
 
                 File currentDB = new File(data, currentDBPath);
 
-
+                Log.i(PasswordLab.GLOBAL_TAG, "EEEEEEEEEEEE " + currentDB.exists() );
                 File on = new File(Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_DOCUMENTS), "Password keeper");
                 on.mkdirs();

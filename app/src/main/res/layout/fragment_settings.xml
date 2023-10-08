@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.SettingsFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/get_token_button"
+            style="@style/ItemTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Get_token" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/enter_token_edit_text_settings_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:focusable="true"
+            android:focusedByDefault="true"
+            android:gravity="center"
+            android:hint="@string/enter_token_hint"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:maxLines="1"
+            android:textSize="25sp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/enter_token_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ItemTheme"
+            android:text="@string/Enter_token" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/save_and_send_database_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ItemTheme"
+            android:text="@string/Save_and_send_database" />
+
+    </LinearLayout>
+
+</FrameLayout>

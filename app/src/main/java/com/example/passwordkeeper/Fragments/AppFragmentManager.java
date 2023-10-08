@@ -52,24 +52,6 @@ public class AppFragmentManager {
     }
 
 
-    /*public static void setUpTargetForBackPressed(Fragment currentFragment, Fragment targetFragment) {
-        currentFragment.requireActivity().getOnBackPressedDispatcher().addCallback(currentFragment.getViewLifecycleOwner(), new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-
-                int animDurationDelay = currentFragment.getResources().getInteger(R.integer.fab_animation_duration);
-
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        openFragment(targetFragment);
-                    }
-                }, animDurationDelay + 10);
-
-            }
-        });
-    }*/
 
     public static void closeApp(Fragment currentFragment) {
         currentFragment.requireActivity().getOnBackPressedDispatcher().addCallback(currentFragment.getViewLifecycleOwner(), new OnBackPressedCallback(true) {

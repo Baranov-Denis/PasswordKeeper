@@ -49,4 +49,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Do_you_really_want_to_delete">Do you really want to delete</string>
     <string name="fill_some_text">----------------------</string>
+    <string name="Get_token">Get token</string>
+    <string name="Enter_token">Enter token</string>
+    <string name="enter_token_hint">Enter token</string>
+    <string name="Save_and_send_database">Save and send database</string>
 </resources>

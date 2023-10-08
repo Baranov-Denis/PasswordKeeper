@@ -96,10 +96,6 @@ public class PasswordsListFragment extends Fragment {
     }
 
 
-
-
-
-
     private void initFab() {
         fabList = new ArrayList<>();
         fabList.add(setSettingsFab());
@@ -221,24 +217,23 @@ public class PasswordsListFragment extends Fragment {
         return saveDBFloatingActionButton;
     }
 
-
-
-
     private FloatingActionButton setSettingsFab() {
         settingsFloatingActionButton = view.findViewById(R.id.fab_settings);
         rollInFabButton(settingsFloatingActionButton);
         settingsFloatingActionButton.setOnClickListener(l -> {
-            if(isSettingsHide) {
+            AppFragmentManager.openFragment(new SettingsFragment());
+
+          /*  if (isSettingsHide) {
                 rollInFabButton(loadDBFloatingActionButton);
                 rollInFabButton(changePasswordFloatingActionButton);
                 Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.crazy_rotate);
                 settingsFloatingActionButton.startAnimation(rotateAnimation);
                 isSettingsHide = false;
-            }else{
+            } else {
                 hideOneFloatButtons(loadDBFloatingActionButton);
                 hideOneFloatButtons(changePasswordFloatingActionButton);
                 isSettingsHide = true;
-            }
+            }*/
         });
         return settingsFloatingActionButton;
     }
@@ -249,15 +244,14 @@ public class PasswordsListFragment extends Fragment {
         changePasswordFloatingActionButton.setOnClickListener(l -> {
             Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.crazy_rotate);
             changePasswordFloatingActionButton.startAnimation(rotateAnimation);
-           if(!passwordLab.passwordIsWrong()) {
+            if (!passwordLab.passwordIsWrong()) {
                 AppFragmentManager.addFragment(new ChangePasswordFragment());
-            }else{
+            } else {
                 Toast.makeText(getContext(), R.string.change_password_denied, Toast.LENGTH_LONG).show();
             }
         });
         return changePasswordFloatingActionButton;
     }
-
 
     private FloatingActionButton setDBLoadingFab() {
         loadDBFloatingActionButton = view.findViewById(R.id.fab_load_backup);
@@ -287,7 +281,6 @@ public class PasswordsListFragment extends Fragment {
             }
         }
     }
-
 
 
     private void rollInFabButton(FloatingActionButton fab) {
@@ -449,16 +442,16 @@ public class PasswordsListFragment extends Fragment {
                 resourceNameTextView.setText(getActivity().getResources().getString(R.string.access_denied));
                 resourceFirstLetter.setText("");
             } else {
-if(passwordCard.getResourceName()!=null) {
-    String[] title = passwordCard.getResourceName().split("");
-    title[0] = title[0].toUpperCase(Locale.ROOT);
-    StringBuilder result = new StringBuilder();
-    resourceFirstLetter.setText(title[0]);
-    for (int i = 1; i < title.length; i++) {
-        result.append(title[i]);
-    }
-    resourceNameTextView.setText(result);
-}
+                if (passwordCard.getResourceName() != null) {
+                    String[] title = passwordCard.getResourceName().split("");
+                    title[0] = title[0].toUpperCase(Locale.ROOT);
+                    StringBuilder result = new StringBuilder();
+                    resourceFirstLetter.setText(title[0]);
+                    for (int i = 1; i < title.length; i++) {
+                        result.append(title[i]);
+                    }
+                    resourceNameTextView.setText(result);
+                }
             }
         }
 
