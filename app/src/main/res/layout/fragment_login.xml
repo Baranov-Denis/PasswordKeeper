@@ -86,19 +86,17 @@
 
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-
+    <ImageButton
         android:id="@+id/fab_help_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabCustomSize="60dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:gravity="center"
         android:layout_gravity="top|end"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:src="@mipmap/fab_flat_help"
-        app:tint="@null"
-        app:maxImageSize="60dp"
-        app:backgroundTint="@null"
-        android:visibility="visible"
-        android:contentDescription="TODOii" />
+        android:src="@drawable/icons8_help_96___"
+        android:background="@null"
+        android:visibility="visible" />
+
 </FrameLayout>

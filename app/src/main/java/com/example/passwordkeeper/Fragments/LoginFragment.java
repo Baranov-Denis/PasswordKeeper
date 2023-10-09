@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -31,7 +33,7 @@ public class LoginFragment extends Fragment {
     private View view;
     private AppCompatButton enterButton;
     private AppCompatEditText passwordEditText;
-    private FloatingActionButton helpFab;
+    private ImageButton helpFab;
 
     private PasswordLab passwordLab;
 
@@ -85,14 +87,14 @@ public class LoginFragment extends Fragment {
 
         helpFab.setOnClickListener(o -> {
             Handler mHandler = new Handler();
-            AppFragmentManager.hideFloatButton(helpFab, view);
+           // AppFragmentManager.hideFloatButton(helpFab, view);
 
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     // Здесь запускаем переход на другой фрагмент
                     Toast.makeText(getContext(), "This is will help you!!!", Toast.LENGTH_SHORT).show();
-                    helpFab.hide();
+                    //helpFab.hide();
                 }
             }, MainActivity.animationDelay);
         });
