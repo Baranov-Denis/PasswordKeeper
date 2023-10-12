@@ -88,7 +88,8 @@ public class PasswordsListFragment extends Fragment {
         animDurationDelay = 1;
 
         //  AppFragmentManager.setAddButton(view, this.getActivity());
-        initFab();
+        //initFab();
+        AppFragmentManager.addFragment(new HotKeysFragment());
         setUpTargetForBackPressed();
 
         // AppFragmentManager.setLeaveButton(view);

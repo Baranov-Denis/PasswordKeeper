@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="Fragments.HotKeyButtonsFragment"
+android:id="@+id/hot_keys_fragment"
+    >
+
+    <ImageButton
+        android:id="@+id/settings_image_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:gravity="center"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="136dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/icons8_settings_100"
+        android:background="@null"
+        android:visibility="visible" />
+
+
+    <ImageButton
+        android:id="@+id/add_image_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:gravity="center"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="76dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/icons8_plus_math_100"
+        android:background="@null"
+        android:visibility="visible" />
+
+
+    <ImageButton
+        android:id="@+id/leave_image_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:gravity="center"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/icons8_advance_100"
+        android:background="@null"
+        android:visibility="visible" />
+
+
+
+</FrameLayout>
