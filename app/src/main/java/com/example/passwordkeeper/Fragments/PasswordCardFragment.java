@@ -175,6 +175,7 @@ public class PasswordCardFragment extends Fragment {
         setTextViewListeners(true);
         setUpTargetForBackPressed();
         setLeaveButton();
+      //  AppFragmentManager.addFragment(new HotKeyButtonsFragment());
 
         return view;
     }

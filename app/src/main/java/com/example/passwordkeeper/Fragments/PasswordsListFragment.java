@@ -464,7 +464,7 @@ public class PasswordsListFragment extends Fragment {
 
             Handler mHandler = new Handler();
 
-            hideAllFloatButtons();
+           // hideAllFloatButtons();
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {

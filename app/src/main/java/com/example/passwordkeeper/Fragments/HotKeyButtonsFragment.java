@@ -22,7 +22,7 @@ public class HotKeyButtonsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_hot_key_buttons, container, false);
+        view = inflater.inflate(R.layout.fragment_hot_keys_for_card, container, false);
         setAddButton();
         setLeaveButton();
         return view;
