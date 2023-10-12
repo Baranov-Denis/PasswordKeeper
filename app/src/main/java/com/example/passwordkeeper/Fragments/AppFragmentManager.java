@@ -21,7 +21,7 @@ public class AppFragmentManager {
 
         FragmentTransaction transaction = MainActivity.fragmentManager.beginTransaction();
 
-        transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+      //  transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
         // добавление нового фрагмента в транзакцию
         transaction.replace(R.id.main_container_for_all_fragments, fragment);
 
@@ -39,7 +39,7 @@ public class AppFragmentManager {
 
         FragmentTransaction transaction = MainActivity.fragmentManager.beginTransaction();
 
-        transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+     //   transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
         // добавление нового фрагмента в транзакцию
         transaction.add(R.id.main_container_for_all_fragments, fragment);
 
@@ -99,7 +99,7 @@ public class AppFragmentManager {
 
     public static void hideFloatButton(FloatingActionButton fab, View view) {
 
-        int animDurationDelay = view.getResources().getInteger(R.integer.fab_animation_duration);
+        int animDurationDelay = view.getResources().getInteger(R.integer.animation_duration);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

@@ -1,8 +1,6 @@
 package com.example.passwordkeeper.Fragments;
 
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.content.Intent;
 
@@ -16,7 +14,6 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import com.example.passwordkeeper.PasswordLab.LeaveTimer;
 import com.example.passwordkeeper.PasswordLab.PasswordCard;
 import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
@@ -76,23 +72,14 @@ public class PasswordsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_passwords_list, container, false);
-
-
+        AnimationHelper.appearFromRight(requireActivity(),view,0);
         passwordRecyclerView = view.findViewById(R.id.password_recycler_view);
         passwordRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         passwordLab = PasswordLab.getLab(getContext());
         updateUI();
-        //animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
-        animDurationDelay = 1;
-
-        //  AppFragmentManager.setAddButton(view, this.getActivity());
-        //initFab();
         AppFragmentManager.addFragment(new HotKeysFragment());
         setUpTargetForBackPressed();
-
-        // AppFragmentManager.setLeaveButton(view);
         return view;
     }
 
@@ -109,13 +96,14 @@ public class PasswordsListFragment extends Fragment {
     }
 
     public void setUpTargetForBackPressed() {
+     //   AppFragmentManager.openFragment(new LoginFragment());
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
 
-                int animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
+                int animDurationDelay = getResources().getInteger(R.integer.animation_duration);
 
-                hideAllFloatButtons();
+               // hideAllFloatButtons();
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -151,9 +139,8 @@ public class PasswordsListFragment extends Fragment {
 
     @Override
     public void onPause() {
-
         super.onPause();
-
+        AnimationHelper.hideToLeft(requireActivity(),view);
     }
 
 

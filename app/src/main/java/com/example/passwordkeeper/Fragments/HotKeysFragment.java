@@ -28,10 +28,7 @@ public class HotKeysFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_hot_keys, container, false);
-        // Настройка анимации для появления фрагмента
-        Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.appears_from_right);
-        // Применение анимации к View фрагмента
-        view.startAnimation(fadeIn);
+        AnimationHelper.appearFromLeft(requireActivity(),view,getResources().getInteger(R.integer.animation_duration_long));
         initButtons();
         return view;
     }
@@ -67,5 +64,11 @@ public class HotKeysFragment extends Fragment {
         leaveIB.setOnClickListener(o -> {
             AppFragmentManager.openFragment(new LoginFragment());
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AnimationHelper.hideToRight(requireActivity(), view);
     }
 }
