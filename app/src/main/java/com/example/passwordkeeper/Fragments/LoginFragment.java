@@ -33,10 +33,7 @@ public class LoginFragment extends Fragment {
     private View view;
     private AppCompatButton enterButton;
     private AppCompatEditText passwordEditText;
-    private ImageButton helpFab;
-
     private PasswordLab passwordLab;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,13 +42,8 @@ public class LoginFragment extends Fragment {
         passwordLab = PasswordLab.getLab(getContext());
         createEnterButton();
         AppFragmentManager.closeApp(this);
-        setHelpFabButton();
         LeaveTimer.chancelTimer();
         return view;
-    }
-
-    private void setPasswordGeneratorLength(){
-
     }
 
     private void createEnterButton() {
@@ -71,34 +63,5 @@ public class LoginFragment extends Fragment {
 
         });
     }
-
-
-    public void setHelpFabButton() {
-        helpFab = view.findViewById(R.id.fab_help_button);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                helpFab.setVisibility(View.VISIBLE);
-                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.show_anim_for_fab);
-                helpFab.startAnimation(rotateAnimation);
-            }
-        }, MainActivity.animationDelay);
-
-        helpFab.setOnClickListener(o -> {
-            Handler mHandler = new Handler();
-           // AppFragmentManager.hideFloatButton(helpFab, view);
-
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // Здесь запускаем переход на другой фрагмент
-                    Toast.makeText(getContext(), "This is will help you!!!", Toast.LENGTH_SHORT).show();
-                    //helpFab.hide();
-                }
-            }, MainActivity.animationDelay);
-        });
-    }
-
 
 }
