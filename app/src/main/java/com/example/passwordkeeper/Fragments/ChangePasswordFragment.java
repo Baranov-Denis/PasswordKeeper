@@ -31,6 +31,7 @@ public class ChangePasswordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_change_password, container, false);
+        AnimationHelper.appearFromRight(requireActivity(),view,0);
         passwordLab = PasswordLab.getLab(getContext());
         setButtons();
         return view;
@@ -56,9 +57,14 @@ public class ChangePasswordFragment extends Fragment {
         });
 
         chancelButton.setOnClickListener(e -> {
-            AppFragmentManager.openFragment(new PasswordsListFragment());
+            AppFragmentManager.openFragment(new SettingsFragment());
         });
     }
 
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        AnimationHelper.hideToLeft(requireActivity(),view);
+    }
 }

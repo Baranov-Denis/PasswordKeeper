@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private void createLoginFragment(){
         LoginFragment loginFragment = new LoginFragment();
         fragmentManager = getSupportFragmentManager();
-        animationDelay = getResources().getInteger(R.integer.fab_animation_duration);
+        animationDelay = getResources().getInteger(R.integer.animation_duration);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_container_for_all_fragments,loginFragment);
         fragmentTransaction.commit();

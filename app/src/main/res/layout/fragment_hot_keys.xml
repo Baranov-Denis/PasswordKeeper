@@ -1,50 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context="Fragments.HotKeyButtonsFragment"
-android:id="@+id/hot_keys_fragment"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hot_keys_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="Fragments.HotKeyButtonsFragment">
 
     <ImageButton
         android:id="@+id/settings_image_button"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:scaleType="centerCrop"
-        android:gravity="center"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="136dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/icons8_settings_100"
+        android:layout_marginBottom="136dp"
         android:background="@null"
+        android:gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icons8_settings_100"
         android:visibility="visible" />
 
     <ImageButton
         android:id="@+id/add_image_button"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:scaleType="centerCrop"
-        android:gravity="center"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="76dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/icons8_plus_math_100"
+        android:layout_marginBottom="76dp"
         android:background="@null"
+        android:gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icons8_plus_math_100"
         android:visibility="visible" />
 
     <ImageButton
         android:id="@+id/leave_image_button"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:scaleType="centerCrop"
-        android:gravity="center"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/icons8_advance_100"
+        android:layout_marginBottom="16dp"
         android:background="@null"
+        android:gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icons8_advance_100"
         android:visibility="visible" />
 
 </FrameLayout>

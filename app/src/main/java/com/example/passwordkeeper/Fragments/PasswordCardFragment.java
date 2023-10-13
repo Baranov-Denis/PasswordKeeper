@@ -75,7 +75,7 @@ public class PasswordCardFragment extends Fragment {
         UUID passwordId = (UUID) getArguments().getSerializable(PasswordCardFragment.ARG_PASSWORD_ID);
         passwordLab = PasswordLab.getLab(getActivity());
         passwordCard = passwordLab.getPasswordCardByUUID(passwordId);
-        animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
+        animDurationDelay = getResources().getInteger(R.integer.animation_duration);
     }
 
 
@@ -118,7 +118,7 @@ public class PasswordCardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_password_card, container, false);
-
+        AnimationHelper.appearFromRight(requireActivity(), view,0);
         resourceNameTextView = view.findViewById(R.id.resource_name_text_view);
         loginTextView = view.findViewById(R.id.login_text_view);
         passwordTextView = view.findViewById(R.id.password_text_view);
@@ -175,7 +175,7 @@ public class PasswordCardFragment extends Fragment {
         setTextViewListeners(true);
         setUpTargetForBackPressed();
         setLeaveButton();
-      //  AppFragmentManager.addFragment(new HotKeyButtonsFragment());
+        //  AppFragmentManager.addFragment(new HotKeyButtonsFragment());
 
         return view;
     }
@@ -213,7 +213,7 @@ public class PasswordCardFragment extends Fragment {
             @Override
             public void handleOnBackPressed() {
 
-                int animDurationDelay = getResources().getInteger(R.integer.fab_animation_duration);
+                int animDurationDelay = getResources().getInteger(R.integer.animation_duration);
 
                 hideAllFloatButtons();
 
@@ -572,6 +572,7 @@ public class PasswordCardFragment extends Fragment {
         if (!passwordLab.passwordIsWrong()) {
             passwordLab.updatePasswordCard(passwordCard);
         }
+        AnimationHelper.hideToLeft(requireActivity(),view);
     }
 
 

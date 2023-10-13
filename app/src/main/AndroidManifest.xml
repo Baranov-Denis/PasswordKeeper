@@ -19,7 +19,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/flat_app_icon_almost_3d"
+        android:icon="@mipmap/clown_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.PasswordKeeper"

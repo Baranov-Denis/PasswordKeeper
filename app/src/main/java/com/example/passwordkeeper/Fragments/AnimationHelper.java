@@ -2,6 +2,7 @@ package com.example.passwordkeeper.Fragments;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;

@@ -8,7 +8,7 @@
         <item name="android:padding">16dp</item>
         <item name="android:paddingStart">16dp</item>
         <item name="android:textSize">25sp</item>
-        <item name="android:layout_marginHorizontal">8dp</item>
+        <item name="android:layout_marginHorizontal">0dp</item>
         <item name="android:layout_marginVertical">4dp</item>
 
     </style>
