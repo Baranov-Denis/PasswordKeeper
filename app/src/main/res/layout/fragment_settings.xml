@@ -177,7 +177,7 @@ _-->
         android:layout_gravity="bottom"
         android:background="@color/deep_blue"
         android:orientation="vertical"
-        android:paddingTop="8dp">
+        android:paddingTop="2dp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/back_from_settings_button"
@@ -185,7 +185,7 @@ _-->
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:text="@string/Back" />
     </LinearLayout>
 

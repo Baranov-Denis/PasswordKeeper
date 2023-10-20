@@ -4,12 +4,9 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 
 import com.example.passwordkeeper.PasswordLab.PasswordCard;
@@ -17,7 +14,7 @@ import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
 
 
-public class HotKeysFragment extends Fragment {
+public class HotKeysForCardsListFragment extends Fragment {
 
     private View view;
     private ImageButton settingsIB;

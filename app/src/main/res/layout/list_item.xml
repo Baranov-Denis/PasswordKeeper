@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ItemTheme"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:orientation="vertical"
-
-    style="@style/ItemTheme"
-    android:background="@drawable/back2"
-    >
+    android:layout_marginStart="8dp"
+    android:background="@drawable/item_back_fade_to_right"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/first_letter"
-        android:text="@string/R"
-        android:textSize="35sp"
-        android:textStyle="bold"
-        style="@style/ItemThemeText"
-        />
+        <TextView
+            android:id="@+id/first_letter"
+            style="@style/ItemThemeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/R"
+            android:textSize="35sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/item_title"
-        android:text="@string/esource_name"
-        style="@style/ItemThemeText"
-        />
+        <TextView
+            android:id="@+id/item_title"
+            style="@style/ItemThemeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/esource_name" />
     </LinearLayout>
 
 </LinearLayout>

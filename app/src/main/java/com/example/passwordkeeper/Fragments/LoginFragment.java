@@ -28,19 +28,21 @@ import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Objects;
+
 public class LoginFragment extends Fragment {
 
     private View view;
     private AppCompatButton enterButton;
     private AppCompatEditText passwordEditText;
-    private PasswordLab passwordLab;
+   // private PasswordLab passwordLab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false);
         AnimationHelper.appearFromRight(requireActivity(),view,0);
-        passwordLab = PasswordLab.getLab(getContext());
+        //passwordLab = PasswordLab.getLab(getContext());
         createEnterButton();
         AppFragmentManager.closeApp(this);
         LeaveTimer.chancelTimer();
@@ -51,7 +53,7 @@ public class LoginFragment extends Fragment {
         enterButton = view.findViewById(R.id.enter_button);
         enterButton.setOnClickListener(o -> {
             passwordEditText = view.findViewById(R.id.enter_key_edit_text_fk);
-            String password = passwordEditText.getText().toString();
+            String password = Objects.requireNonNull(passwordEditText.getText()).toString();
             if(!password.equals("")) {
                 PasswordLab.setKeyCode(password);
             }else {

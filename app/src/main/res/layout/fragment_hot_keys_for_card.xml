@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Fragments.HotKeyButtonsFragment"
+    tools:context=".Fragments.HotKeysForCardFragment"
     android:id="@+id/hot_keys_fragment"
     >
 
@@ -12,6 +12,13 @@
 
 
 
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="80dp"
+    android:layout_marginEnd="16dp"
+    android:layout_gravity="bottom|end">
 
     <ImageButton
         android:id="@+id/show_image_button"
@@ -19,10 +26,7 @@
         android:layout_height="60dp"
         android:scaleType="centerCrop"
         android:gravity="center"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="76dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/icons8_eye_100"
+        android:src="@drawable/icons8_eye_closed_100"
         android:background="@null"
         android:visibility="visible" />
 
@@ -33,12 +37,10 @@
         android:layout_height="60dp"
         android:scaleType="centerCrop"
         android:gravity="center"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
         android:src="@drawable/icons8_advance_100"
         android:background="@null"
         android:visibility="visible" />
+</LinearLayout>
 
 
 </FrameLayout>

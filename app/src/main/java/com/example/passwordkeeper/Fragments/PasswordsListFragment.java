@@ -79,7 +79,7 @@ public class PasswordsListFragment extends Fragment {
         passwordRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         passwordLab = PasswordLab.getLab(getContext());
         updateUI();
-        AppFragmentManager.addFragment(new HotKeysFragment());
+        AppFragmentManager.addFragment(new HotKeysForCardsListFragment());
         setUpTargetForBackPressed();
         return view;
     }
@@ -451,8 +451,6 @@ public class PasswordsListFragment extends Fragment {
         public void onClick(View v) {
 
             Handler mHandler = new Handler();
-
-           // hideAllFloatButtons();
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
