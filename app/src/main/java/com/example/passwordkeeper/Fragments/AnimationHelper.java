@@ -17,11 +17,19 @@ public class AnimationHelper {
         view.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.hide_to_right));
     }
 
+    public static void hideFade(Activity activity, View view){
+        view.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.fade_out));
+    }
+
     public static void appearFromLeft(Activity activity, View view, Integer delay){
         appear(activity,view,delay,R.anim.appears_from_left);
     }
     public static void appearFromRight(Activity activity, View view, Integer delay){
         appear(activity,view,delay,R.anim.appears_from_right);
+    }
+
+    public static void appearFade(Activity activity, View view, Integer delay){
+        appear(activity,view,delay,R.anim.fade_in);
     }
 
     private static void appear(Activity activity, View view, Integer delay, int animation){

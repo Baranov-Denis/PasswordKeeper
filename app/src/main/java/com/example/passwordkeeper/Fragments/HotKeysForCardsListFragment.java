@@ -25,7 +25,7 @@ public class HotKeysForCardsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_hot_keys, container, false);
-        AnimationHelper.appearFromLeft(requireActivity(),view,getResources().getInteger(R.integer.animation_duration));
+        AnimationHelper.appearFade(requireActivity(),view,getResources().getInteger(R.integer.animation_duration));
         initButtons();
         return view;
     }
@@ -66,6 +66,6 @@ public class HotKeysForCardsListFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        AnimationHelper.hideToRight(requireActivity(), view);
+        AnimationHelper.hideFade(requireActivity(), view);
     }
 }

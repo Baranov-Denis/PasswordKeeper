@@ -42,7 +42,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_settings, container, false);
-        AnimationHelper.appearFromRight(requireActivity(), view, 0);
+        AnimationHelper.appearFade(requireActivity(), view, 0);
         dropBoxHelper = DropBoxHelper.getDropboxHelper(getContext());
         passwordLab = PasswordLab.getLab(getContext());
         setButtons();
@@ -183,6 +183,6 @@ public class SettingsFragment extends Fragment {
         }
         SharedPreferencesHelper.savePasswordLength(requireContext(), String.valueOf(length));
         super.onPause();
-        AnimationHelper.hideToLeft(requireActivity(), view);
+        AnimationHelper.hideFade(requireActivity(), view);
     }
 }

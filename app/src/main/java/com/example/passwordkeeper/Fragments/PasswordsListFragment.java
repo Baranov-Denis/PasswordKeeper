@@ -74,7 +74,7 @@ public class PasswordsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_passwords_list, container, false);
-        AnimationHelper.appearFromRight(requireActivity(),view,0);
+        AnimationHelper.appearFade(requireActivity(),view,0);
         passwordRecyclerView = view.findViewById(R.id.password_recycler_view);
         passwordRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         passwordLab = PasswordLab.getLab(getContext());
@@ -141,7 +141,7 @@ public class PasswordsListFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        AnimationHelper.hideToLeft(requireActivity(),view);
+        AnimationHelper.hideFade(requireActivity(),view);
     }
 
 

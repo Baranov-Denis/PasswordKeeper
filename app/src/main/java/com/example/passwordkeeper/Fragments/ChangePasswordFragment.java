@@ -31,7 +31,7 @@ public class ChangePasswordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_change_password, container, false);
-        AnimationHelper.appearFromRight(requireActivity(),view,0);
+        AnimationHelper.appearFade(requireActivity(),view,0);
         passwordLab = PasswordLab.getLab(getContext());
         setButtons();
         return view;
@@ -65,6 +65,6 @@ public class ChangePasswordFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        AnimationHelper.hideToLeft(requireActivity(),view);
+        AnimationHelper.hideFade(requireActivity(),view);
     }
 }

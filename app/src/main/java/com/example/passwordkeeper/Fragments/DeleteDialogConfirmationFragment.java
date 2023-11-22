@@ -42,6 +42,7 @@ public class DeleteDialogConfirmationFragment extends Fragment {
         passwordLab = PasswordLab.getLab(getContext());
         setResourceName();
         setButtons();
+        AnimationHelper.appearFade(requireActivity(),view,0);
         return view;
     }
 
@@ -75,5 +76,11 @@ public class DeleteDialogConfirmationFragment extends Fragment {
     private void setResourceName() {
         TextView resourceNameTextView = view.findViewById(R.id.password_card_name_on_delete_dialog);
         resourceNameTextView.setText(passwordCard.getResourceName());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AnimationHelper.hideFade(requireActivity(), view);
     }
 }

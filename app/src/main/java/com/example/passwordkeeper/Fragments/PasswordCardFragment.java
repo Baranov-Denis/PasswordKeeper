@@ -81,7 +81,6 @@ public class PasswordCardFragment extends Fragment {
         resourceNameTextView.setFocusable(false);
         loginTextView.setFocusable(false);
         passwordTextView.setFocusable(false);
-        noteTextView.setFocusable(false);
     }
 
     private void enableEditText() {
@@ -100,7 +99,7 @@ public class PasswordCardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_password_card, container, false);
-        AnimationHelper.appearFromRight(requireActivity(), view,0);
+        AnimationHelper.appearFade(requireActivity(), view,0);
         resourceNameTextView = view.findViewById(R.id.resource_name_text_view);
         loginTextView = view.findViewById(R.id.login_text_view);
         passwordTextView = view.findViewById(R.id.password_text_view);
@@ -543,7 +542,7 @@ public class PasswordCardFragment extends Fragment {
             passwordLab.updatePasswordCard(passwordCard);
         }
 
-        AnimationHelper.hideToLeft(requireActivity(),view);
+        AnimationHelper.hideFade(requireActivity(),view);
     }
 
 

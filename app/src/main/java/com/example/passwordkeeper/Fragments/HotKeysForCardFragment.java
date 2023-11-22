@@ -37,7 +37,7 @@ public class HotKeysForCardFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_hot_keys_for_card, container, false);
-        AnimationHelper.appearFromLeft(requireActivity(),view,getResources().getInteger(R.integer.animation_duration));
+        AnimationHelper.appearFade(requireActivity(),view,getResources().getInteger(R.integer.animation_duration));
         getTextViewsFromCard();
         connectRobotFontFamily();
         setShowButton();
@@ -93,7 +93,7 @@ public class HotKeysForCardFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-       // AnimationHelper.hideToRight(requireActivity(), view);
+       AnimationHelper.hideFade(requireActivity(), view);
     }
 
 }
