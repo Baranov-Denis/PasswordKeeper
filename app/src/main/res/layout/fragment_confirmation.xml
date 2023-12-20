@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/delete_dialog_confirmation_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        style="@style/DeleteConfirmationWindowTheme"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/DeleteConfirmationWindowThemeText"
+                android:text="@string/Do_you_really_want_to_discard"/>
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/chancel_discard_password_card_button"
+                android:layout_height="64dp"
+                android:layout_width="0dp"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:text="@string/No" />
+
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/agree_discard_password_card_button"
+                android:layout_height="64dp"
+                android:layout_width="0dp"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:text="@string/Yes" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

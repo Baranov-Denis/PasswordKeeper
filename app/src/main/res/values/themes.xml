@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
 
     <style name="Theme.PasswordKeeperDay" parent="Theme.PasswordKeeper">
-
+        <item name="android:fontFamily">@font/roboto_mono_regular</item>
     </style>
 
 </resources>

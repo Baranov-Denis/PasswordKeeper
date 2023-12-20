@@ -62,4 +62,7 @@
     <string name="Save_password_length">Save password length</string>
     <string name="Load_database">Load database</string>
     <string name="number">999</string>
+    <string name="Do_you_really_want_to_discard">Do you really want to discard</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
 </resources>

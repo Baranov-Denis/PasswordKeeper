@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.PasswordKeeperNight" parent="Theme.PasswordKeeper">
-
+        <item name="android:fontFamily">@font/roboto_mono_regular</item>
     </style>
 
 

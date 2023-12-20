@@ -1,5 +1,6 @@
 package com.example.passwordkeeper.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -111,6 +112,8 @@ public class PasswordCardFragment extends Fragment {
         deleteButton = view.findViewById(R.id.delete_button_fp);
         AppFragmentManager.addFragment(new HotKeysForCardFragment(view));
         connectRobotFontFamily();
+
+
 
 
         if (passwordLab.passwordIsWrong()) {
@@ -256,12 +259,7 @@ public class PasswordCardFragment extends Fragment {
          * Delete button
          */
         deleteButton.setOnClickListener(d -> {
-         /*   FragmentManager fragmentManager = getParentFragmentManager();
-            DeleteDialogFragment newFragment = DeleteDialogFragment.newInstance(passwordCard.getId().toString());
-            newFragment.show(fragmentManager, DeleteDialogFragment.DELETE);*/
             AppFragmentManager.addFragment(new DeleteDialogConfirmationFragment(passwordCard));
-            // passwordLab.deletePasswordById(passwordCard.getId());
-            // goToPasswordListActivity();
         });
 
 
@@ -272,13 +270,6 @@ public class PasswordCardFragment extends Fragment {
             if (!passwordLab.passwordIsWrong()) {
                 passwordLab.updatePasswordCard(passwordCard);
             }
-           /* Handler mHandler = new Handler();
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    goToPasswordListActivity();
-                }
-            }, animDurationDelay);*/
             goToPasswordListActivity();
         });
 
@@ -379,7 +370,8 @@ public class PasswordCardFragment extends Fragment {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    goToPasswordListActivity();
+                    AppFragmentManager.addFragment(new ConfirmationFragment());
+                    //goToPasswordListActivity();
                 }
             }, animDurationDelay);
         });
@@ -534,6 +526,7 @@ public class PasswordCardFragment extends Fragment {
 
     @Override
     public void onPause() {
+
         super.onPause();
         if (passwordCard == null || passwordCard.getPassword() == null) {
             passwordLab.deletePasswordById(passwordCard.getId());

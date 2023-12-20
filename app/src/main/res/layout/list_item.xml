@@ -3,8 +3,8 @@
     style="@style/ItemTheme"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:layout_marginStart="8dp"
-    android:background="@drawable/item_back_fade_to_right"
+    android:layout_marginHorizontal="8dp"
+    android:background="@drawable/round_corner_deep_blue_opacity"
     android:orientation="vertical">
 
     <LinearLayout
