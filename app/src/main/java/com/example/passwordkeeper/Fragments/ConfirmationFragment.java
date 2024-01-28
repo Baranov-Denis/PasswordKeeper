@@ -27,7 +27,6 @@ public class ConfirmationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_confirmation, container, false);
         passwordLab = PasswordLab.getLab(getContext());
         setButtons();
@@ -42,9 +41,6 @@ public class ConfirmationFragment extends Fragment {
         });
 
         yesButton = view.findViewById(R.id.agree_discard_password_card_button);
-
-
-
         yesButton.setOnClickListener(c ->{
             AppFragmentManager.openFragment(new PasswordsListFragment());
         });

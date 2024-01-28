@@ -9,6 +9,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,10 @@ public class HotKeysForCardFragment extends Fragment {
     private ImageButton showButton;
     private Typeface robotFontFamilyTypeface;
     private boolean isTextHide = true;
+
+    public ImageButton getShowButton() {
+        return showButton;
+    }
 
     public HotKeysForCardFragment(View cardView) {
         this.cardView = cardView;
@@ -59,6 +64,13 @@ public class HotKeysForCardFragment extends Fragment {
                 LeaveTimer.runLeaveTimer(1);
             }
         });
+    }
+
+    public void showShowButton(boolean show){
+
+            if (show) showButton.setVisibility(View.VISIBLE);
+            else showButton.setVisibility(View.INVISIBLE);
+
     }
 
     private void setLeaveButton() {

@@ -6,6 +6,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
@@ -49,8 +51,9 @@ public class PasswordCardFragment extends Fragment {
     private AppCompatButton backButton;
     private AppCompatButton changeButton;
     private AppCompatButton deleteButton;
-
     private PasswordLab passwordLab;
+
+    private HotKeysForCardFragment hotKeysForCardFragment;
 
     private boolean isShowed = false;
 
@@ -73,11 +76,9 @@ public class PasswordCardFragment extends Fragment {
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
-        //  addShowPasswordEyeActionButton();
     }
 
     private void disableEditText() {
@@ -102,7 +103,7 @@ public class PasswordCardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_password_card, container, false);
-        AnimationHelper.appearFade(requireActivity(), view,0);
+        AnimationHelper.appearFade(requireActivity(), view, 0);
         resourceNameTextView = view.findViewById(R.id.resource_name_text_view);
         loginTextView = view.findViewById(R.id.login_text_view);
         passwordTextView = view.findViewById(R.id.password_text_view);
@@ -112,10 +113,9 @@ public class PasswordCardFragment extends Fragment {
         backButton = view.findViewById(R.id.back_button_fp);
         changeButton = view.findViewById(R.id.change_button_fp);
         deleteButton = view.findViewById(R.id.delete_button_fp);
-        AppFragmentManager.addFragment(new HotKeysForCardFragment(view));
+        hotKeysForCardFragment = new HotKeysForCardFragment(view);
+        AppFragmentManager.addFragment(hotKeysForCardFragment);
         connectRobotFontFamily();
-
-
 
 
         if (passwordLab.passwordIsWrong()) {
@@ -140,7 +140,7 @@ public class PasswordCardFragment extends Fragment {
                 //Подключаю кнопки
                 setButtons();
                 //Подключаю Fab с глазом для кратковременного просмотра логина и пароля
-               // **-setEyeActionButton();
+                // **-setEyeActionButton();
             } else {
                 //Тут условия для создания нового Password Card
                 //Включаю видимость логина и пароля
@@ -161,6 +161,8 @@ public class PasswordCardFragment extends Fragment {
 
 
 
+
+
     public void setUpTargetForBackPressed() {
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
@@ -173,6 +175,7 @@ public class PasswordCardFragment extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        LeaveTimer.runLeaveTimer(1);
                         AppFragmentManager.openFragment(new PasswordsListFragment());
                     }
                 }, animDurationDelay);
@@ -227,7 +230,8 @@ public class PasswordCardFragment extends Fragment {
 
     //Устанавливаю кнопки для обычного режима
     private void setButtons() {
-        AppPlugins.hideKeyboard(requireContext(),view);
+        AppPlugins.hideKeyboard(requireContext(), view);
+        if (hotKeysForCardFragment.getShowButton() != null) hotKeysForCardFragment.showShowButton(true);
         /**
          * Delete button
          */
@@ -255,7 +259,7 @@ public class PasswordCardFragment extends Fragment {
         changeButton.setOnClickListener(e -> {
 
             //Скрыть Fab с глазом
-          //  eyeFloatingActionButton.setVisibility(View.INVISIBLE);
+            //  eyeFloatingActionButton.setVisibility(View.INVISIBLE);
             //Включаю редактирование текста для ввода пароля и остальных полей
             enableEditText();
             //Включаю видимость пароля и логина (откл звездочки)
@@ -276,7 +280,7 @@ public class PasswordCardFragment extends Fragment {
     private void setAddButtons() {
 
         LeaveTimer.runLeaveTimer(10);
-
+        if (hotKeysForCardFragment.getShowButton() != null) hotKeysForCardFragment.showShowButton(false);
         /**
          *Переназначаю кнопку Delete -> Generate
          */
@@ -317,7 +321,7 @@ public class PasswordCardFragment extends Fragment {
                 passwordLab.saveDataBaseToDropbox(getContext(), getActivity());
 
                 setButtons();
-               // eyeFloatingActionButton.setVisibility(View.INVISIBLE);
+                // eyeFloatingActionButton.setVisibility(View.INVISIBLE);
                /* Handler mHandler = new Handler();
 
                Отключен выход в список
@@ -334,7 +338,6 @@ public class PasswordCardFragment extends Fragment {
 
         });
     }
-
 
 
     /**
@@ -416,7 +419,7 @@ public class PasswordCardFragment extends Fragment {
             passwordLab.updatePasswordCard(passwordCard);
         }
 
-        AnimationHelper.hideFade(requireActivity(),view);
+        AnimationHelper.hideFade(requireActivity(), view);
     }
 
 

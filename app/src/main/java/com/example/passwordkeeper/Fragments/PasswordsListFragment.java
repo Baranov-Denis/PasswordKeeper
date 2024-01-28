@@ -4,6 +4,7 @@ package com.example.passwordkeeper.Fragments;
 import android.app.Activity;
 import android.content.Intent;
 
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.example.passwordkeeper.PasswordLab.LeaveTimer;
 import com.example.passwordkeeper.PasswordLab.PasswordCard;
 import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
@@ -57,6 +60,7 @@ public class PasswordsListFragment extends Fragment {
 
     private LinearLayoutManager layoutManager;
 
+    private Typeface robotFontFamilyTypeface;
     int animDurationDelay;
 
 
@@ -69,6 +73,7 @@ public class PasswordsListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        animDurationDelay = getResources().getInteger(R.integer.animation_duration);
     }
 
     @Override
@@ -88,8 +93,10 @@ public class PasswordsListFragment extends Fragment {
         updateUI();
         AppFragmentManager.addFragment(new HotKeysForCardsListFragment());
         setUpTargetForBackPressed();
+        robotFontFamilyTypeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_mono_regular);
         return view;
     }
+
 
 
     private void initFab() {
@@ -126,6 +133,7 @@ public class PasswordsListFragment extends Fragment {
 
 
     private void updateUI() {
+        LeaveTimer.runLeaveTimer(1);
         PasswordLab passwordLab = PasswordLab.getLab(getActivity());
         List<PasswordCard> passwordCards = passwordLab.getPasswords();
 
@@ -501,6 +509,7 @@ public class PasswordsListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateUI();
+
     }
 
 
