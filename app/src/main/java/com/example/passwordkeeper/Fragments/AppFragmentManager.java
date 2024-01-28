@@ -28,7 +28,7 @@ public class AppFragmentManager {
         // Добавление транзакции в back stack для того чтобы пользователь мог вернуться к предыдущему фрагменту при нажатии кнопки "Назад"
         transaction.addToBackStack(null);
 
-        LeaveTimer.runLeaveTimer();
+        LeaveTimer.runLeaveTimer(1);
         // Завершение транзакции
         transaction.commit();
     }
@@ -46,7 +46,7 @@ public class AppFragmentManager {
         // Добавление транзакции в back stack для того чтобы пользователь мог вернуться к предыдущему фрагменту при нажатии кнопки "Назад"
         transaction.addToBackStack(null);
 
-        LeaveTimer.runLeaveTimer();
+        LeaveTimer.runLeaveTimer(1);
         // Завершение транзакции
         transaction.commit();
     }

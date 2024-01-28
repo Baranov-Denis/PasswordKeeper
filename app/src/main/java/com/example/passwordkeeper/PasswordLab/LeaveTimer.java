@@ -14,11 +14,11 @@ import java.util.TimerTask;
 public class LeaveTimer {
 
     public static Timer timer;
-    public static int timeBeforeLogOut = 50000; //300000 = 5 min
+    public static long timeBeforeLogOut = 60000; //60000 = 1min
 
-    public static void runLeaveTimer() {
+    public static void runLeaveTimer(int factor) {
+        timeBeforeLogOut = timeBeforeLogOut * factor;
         chancelTimer();
-
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -40,7 +40,7 @@ public class LeaveTimer {
 
     public static void resetTimer(){
         if (LeaveTimer.timer != null) {
-            runLeaveTimer();
+            runLeaveTimer(1);
         }
     }
 

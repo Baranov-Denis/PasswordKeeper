@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.passwordkeeper.PasswordLab.LeaveTimer;
 import com.example.passwordkeeper.R;
 
 
@@ -51,9 +52,11 @@ public class HotKeysForCardFragment extends Fragment {
             if (isTextHide){
                 setLoginAndPasswordVisible(true);
                 isTextHide = false;
+                LeaveTimer.runLeaveTimer(5);
             }else {
                 setLoginAndPasswordVisible(false);
                 isTextHide = true;
+                LeaveTimer.runLeaveTimer(1);
             }
         });
     }

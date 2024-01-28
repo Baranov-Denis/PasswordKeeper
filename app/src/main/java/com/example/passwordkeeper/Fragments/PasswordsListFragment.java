@@ -45,7 +45,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class PasswordsListFragment extends Fragment {
 
 
-
     private FloatingActionButton addFloatingActionButton;
     private FloatingActionButton leaveFloatingActionButton;
     private FloatingActionButton saveDBFloatingActionButton;
@@ -55,6 +54,8 @@ public class PasswordsListFragment extends Fragment {
     private List<FloatingActionButton> fabList;
 
     private boolean isSettingsHide = true;
+
+    private LinearLayoutManager layoutManager;
 
     int animDurationDelay;
 
@@ -74,10 +75,16 @@ public class PasswordsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_passwords_list, container, false);
-        AnimationHelper.appearFade(requireActivity(),view,0);
+        AnimationHelper.appearFade(requireActivity(), view, 0);
         passwordRecyclerView = view.findViewById(R.id.password_recycler_view);
         passwordRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         passwordLab = PasswordLab.getLab(getContext());
+
+        layoutManager = (LinearLayoutManager) passwordRecyclerView.getLayoutManager();
+        if (layoutManager != null) {
+            layoutManager.scrollToPosition(passwordLab.getCardPosition());
+        }
+        passwordLab.setCardPosition(0);
         updateUI();
         AppFragmentManager.addFragment(new HotKeysForCardsListFragment());
         setUpTargetForBackPressed();
@@ -97,14 +104,14 @@ public class PasswordsListFragment extends Fragment {
     }
 
     public void setUpTargetForBackPressed() {
-     //   AppFragmentManager.openFragment(new LoginFragment());
+        //   AppFragmentManager.openFragment(new LoginFragment());
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
 
                 int animDurationDelay = getResources().getInteger(R.integer.animation_duration);
 
-               // hideAllFloatButtons();
+                // hideAllFloatButtons();
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -141,7 +148,7 @@ public class PasswordsListFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        AnimationHelper.hideFade(requireActivity(),view);
+        AnimationHelper.hideFade(requireActivity(), view);
     }
 
 
@@ -210,7 +217,7 @@ public class PasswordsListFragment extends Fragment {
         settingsFloatingActionButton = view.findViewById(R.id.fab_settings);
         rollInFabButton(settingsFloatingActionButton);
         settingsFloatingActionButton.setOnClickListener(l -> {
-            if(!passwordLab.passwordIsWrong()) {
+            if (!passwordLab.passwordIsWrong()) {
                 AppFragmentManager.openFragment(new SettingsFragment());
             }
 
@@ -454,6 +461,7 @@ public class PasswordsListFragment extends Fragment {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    passwordLab.setCardPosition(layoutManager.findFirstVisibleItemPosition());
                     AppFragmentManager.openFragment(PasswordCardFragment.newInstance(passwordCard.getId()));
                 }
             }, animDurationDelay);

@@ -44,7 +44,7 @@ public class PasswordLab {
     private Context context;
     private SQLiteDatabase sqLiteDatabase;
     private SQLiteDatabase externalDatabase;
-
+    private int cardPosition;
     private DropBoxHelper dropBoxHelper;
 
     public static String getKeyCode() {
@@ -68,6 +68,16 @@ public class PasswordLab {
         sqLiteDatabase = new PasswordBaseHelper(context).getWritableDatabase();
         externalDatabase = null;
     }
+
+
+    public void setCardPosition(int cardPosition){
+        this.cardPosition = cardPosition;
+    }
+
+    public int getCardPosition(){
+        return cardPosition;
+    }
+
 
     public void loadExternalPasswordsList(Context context, String databasePath) {
         List<PasswordCard> passwordCards = new ArrayList<>();
