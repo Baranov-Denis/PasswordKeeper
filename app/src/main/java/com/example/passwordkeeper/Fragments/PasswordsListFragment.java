@@ -42,6 +42,7 @@ import java.util.Locale;
 import com.example.passwordkeeper.PasswordLab.LeaveTimer;
 import com.example.passwordkeeper.PasswordLab.PasswordCard;
 import com.example.passwordkeeper.PasswordLab.PasswordLab;
+import com.example.passwordkeeper.PasswordLab.Values;
 import com.example.passwordkeeper.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -133,7 +134,7 @@ public class PasswordsListFragment extends Fragment {
 
 
     private void updateUI() {
-        LeaveTimer.runLeaveTimer(1);
+        LeaveTimer.runLeaveTimer(Values.timerNormal);
         PasswordLab passwordLab = PasswordLab.getLab(getActivity());
         List<PasswordCard> passwordCards = passwordLab.getPasswords();
 

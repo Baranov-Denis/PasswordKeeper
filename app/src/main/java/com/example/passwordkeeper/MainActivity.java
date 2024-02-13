@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         LoginFragment loginFragment = new LoginFragment();
         fragmentManager = getSupportFragmentManager();
         animationDelay = getResources().getInteger(R.integer.animation_duration);
+        //j
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_container_for_all_fragments,loginFragment);
         fragmentTransaction.commit();
@@ -38,7 +39,5 @@ public class MainActivity extends AppCompatActivity {
         super.onUserInteraction();
         LeaveTimer.resetTimer();
     }
-
-
 
 }

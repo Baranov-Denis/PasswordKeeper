@@ -1,13 +1,10 @@
 package com.example.passwordkeeper.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
@@ -17,7 +14,6 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +27,7 @@ import com.example.passwordkeeper.PasswordLab.AppPlugins;
 import com.example.passwordkeeper.PasswordLab.LeaveTimer;
 import com.example.passwordkeeper.PasswordLab.PasswordCard;
 import com.example.passwordkeeper.PasswordLab.PasswordLab;
+import com.example.passwordkeeper.PasswordLab.Values;
 import com.example.passwordkeeper.R;
 import com.example.passwordkeeper.PasswordLab.PasswordGenerator;
 
@@ -175,7 +172,7 @@ public class PasswordCardFragment extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        LeaveTimer.runLeaveTimer(1);
+                        LeaveTimer.runLeaveTimer(Values.timerNormal);
                         AppFragmentManager.openFragment(new PasswordsListFragment());
                     }
                 }, animDurationDelay);
@@ -279,7 +276,7 @@ public class PasswordCardFragment extends Fragment {
      */
     private void setAddButtons() {
 
-        LeaveTimer.runLeaveTimer(10);
+        LeaveTimer.runLeaveTimer(Values.timerLongest);
         if (hotKeysForCardFragment.getShowButton() != null) hotKeysForCardFragment.showShowButton(false);
         /**
          *Переназначаю кнопку Delete -> Generate

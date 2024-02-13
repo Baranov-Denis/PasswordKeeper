@@ -16,11 +16,14 @@ public class LeaveTimer {
 
     public static Timer timer;
 
-    private static final long timeDefault = 60000;//60000 = 1min
+    public static long timeDefault = 60000;//60000 = 1min
     public static long timeBeforeLogOut = timeDefault;
 
-    public static void runLeaveTimer(int factor) {
-        timeBeforeLogOut = timeDefault * factor;
+    public static void runLeaveTimer(long factor) {
+        //timeBeforeLogOut = timeDefault * factor;
+        //timeDefault = timeDefault * factor;
+
+        timeDefault = factor;
         chancelTimer();
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -29,8 +32,8 @@ public class LeaveTimer {
                 // Redirect user to login screen
                 leaveToLoginActivity();
             }
-        },  timeBeforeLogOut);
-        Log.i("timer   ", timeBeforeLogOut + "");
+        },  timeDefault);
+        Log.i("timer   ", timeDefault + "");
     }
 
 
@@ -44,7 +47,7 @@ public class LeaveTimer {
 
     public static void resetTimer(){
         if (LeaveTimer.timer != null) {
-            runLeaveTimer(1);
+            runLeaveTimer(timeDefault);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.passwordkeeper.Fragments;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.passwordkeeper.MainActivity;
 import com.example.passwordkeeper.PasswordLab.LeaveTimer;
+import com.example.passwordkeeper.PasswordLab.Values;
 import com.example.passwordkeeper.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,7 +30,7 @@ public class AppFragmentManager {
         // Добавление транзакции в back stack для того чтобы пользователь мог вернуться к предыдущему фрагменту при нажатии кнопки "Назад"
         transaction.addToBackStack(null);
 
-        LeaveTimer.runLeaveTimer(1);
+        LeaveTimer.runLeaveTimer(LeaveTimer.timeDefault);
         // Завершение транзакции
         transaction.commit();
     }
@@ -46,7 +48,7 @@ public class AppFragmentManager {
         // Добавление транзакции в back stack для того чтобы пользователь мог вернуться к предыдущему фрагменту при нажатии кнопки "Назад"
         transaction.addToBackStack(null);
 
-        LeaveTimer.runLeaveTimer(1);
+        LeaveTimer.runLeaveTimer(LeaveTimer.timeDefault);
         // Завершение транзакции
         transaction.commit();
     }
