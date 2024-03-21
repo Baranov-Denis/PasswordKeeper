@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -70,6 +71,8 @@ public class PasswordsListFragment extends Fragment {
     private View view;
     PasswordLab passwordLab;
 
+    List<PasswordCard> optimalNewPasswordCards;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +88,8 @@ public class PasswordsListFragment extends Fragment {
         passwordRecyclerView = view.findViewById(R.id.password_recycler_view);
         passwordRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         passwordLab = PasswordLab.getLab(getContext());
+        Log.i("12345","   passwordLab.getPasswords();");
+        optimalNewPasswordCards = passwordLab.getPasswords();
 
         layoutManager = (LinearLayoutManager) passwordRecyclerView.getLayoutManager();
         if (layoutManager != null) {
@@ -136,11 +141,16 @@ public class PasswordsListFragment extends Fragment {
     private void updateUI() {
         LeaveTimer.runLeaveTimer(Values.timerNormal);
         PasswordLab passwordLab = PasswordLab.getLab(getActivity());
-        List<PasswordCard> passwordCards = passwordLab.getPasswords();
+        Log.i("12345","   start load");
 
+        //List<PasswordCard> passwordCards = passwordLab.getPasswords();
+        List<PasswordCard> passwordCards = optimalNewPasswordCards;
+        Log.i("12345","   stop load");
         if (passwordAdapter == null) {
+            Log.i("12345","   passwordAdapter == null");
             passwordAdapter = new PasswordAdapter(passwordCards);
             passwordRecyclerView.setAdapter(passwordAdapter);
+            Log.i("12345","   passwordAdapter created");
         } else {
             passwordAdapter.notifyDataSetChanged();
         }
@@ -209,18 +219,6 @@ public class PasswordsListFragment extends Fragment {
         return leaveFloatingActionButton;
     }
 
-    /*private FloatingActionButton setSavingDBFab() {
-        saveDBFloatingActionButton = view.findViewById(R.id.fab_save_passwords_database);
-        rollInFabButton(saveDBFloatingActionButton);
-        saveDBFloatingActionButton.setOnClickListener(l -> {
-            if (passwordLab.backUp()) {
-                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.Backup_is_successful_to_SD_card), Toast.LENGTH_LONG).show();
-                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.process_rolling_animation);
-                saveDBFloatingActionButton.startAnimation(rotateAnimation);
-            }
-        });
-        return saveDBFloatingActionButton;
-    }*/
 
     private FloatingActionButton setSettingsFab() {
         settingsFloatingActionButton = view.findViewById(R.id.fab_settings);
@@ -230,17 +228,6 @@ public class PasswordsListFragment extends Fragment {
                 AppFragmentManager.openFragment(new SettingsFragment());
             }
 
-          /*  if (isSettingsHide) {
-                rollInFabButton(loadDBFloatingActionButton);
-                rollInFabButton(changePasswordFloatingActionButton);
-                Animation rotateAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.crazy_rotate);
-                settingsFloatingActionButton.startAnimation(rotateAnimation);
-                isSettingsHide = false;
-            } else {
-                hideOneFloatButtons(loadDBFloatingActionButton);
-                hideOneFloatButtons(changePasswordFloatingActionButton);
-                isSettingsHide = true;
-            }*/
         });
         return settingsFloatingActionButton;
     }
@@ -324,74 +311,6 @@ public class PasswordsListFragment extends Fragment {
 
 
 
-
-
-/*
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.new_password:
-                PasswordCard card = new PasswordCard();
-                PasswordLab.getLab(getActivity()).addPasswordCard(card);
-                Intent intent = PasswordActivity.newIntent(getActivity(), card.getId());
-                startActivity(intent);
-                TransitAnimation.animationFade(getActivity());
-                return true;
-
-            case R.id.start_backup:
-
-                if (passwordLab.backUp()) {
-                    Toast.makeText(getContext(), getActivity().getResources().getString(R.string.Backup_is_successful_to_SD_card), Toast.LENGTH_LONG).show();
-                }
-                return true;
-
-            case R.id.load_base:
-
-/**
- * Test isExternalStorageManager() без этого не будут загружаться перенесенные сохранения
- */
-
-            /*    if (Environment.isExternalStorageManager()) {
-
-                    //todo when permission is granted
-                    Intent intentForStartFileManager = new Intent(Intent.ACTION_GET_CONTENT);
-
-             */
-    // intentForStartFileManager.setType("*/*");
-                  /*  someActivityResultLauncher.launch(intentForStartFileManager);
-
-
-                } else {
-                    //request for the permission
-                    Intent intent12 = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                    Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-                    intent12.setData(uri);
-                    startActivity(intent12);
-                    TransitAnimation.animationFade(getActivity());
-                }
-                return true;
-
-            case R.id.settings:
-                Intent settingIntent = new Intent(getActivity(), SettingsActivity.class);
-                startActivity(settingIntent);
-                TransitAnimation.animationFade(getActivity());
-                return true;
-
-
-            case android.R.id.home:
-                LeaveTimer.leaveToLoginActivity(getContext(), getActivity());
-                TransitAnimation.animationFade(getActivity());
-                return true;
-
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
-*/
-
     // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -441,7 +360,7 @@ public class PasswordsListFragment extends Fragment {
         }
 
         public void bind(PasswordCard passwordCard) {
-
+            Log.i("12345","   bind ?");
 
             this.passwordCard = passwordCard;
 
@@ -449,6 +368,7 @@ public class PasswordsListFragment extends Fragment {
                 resourceNameTextView.setText(getActivity().getResources().getString(R.string.access_denied));
                 resourceFirstLetter.setText("");
             } else {
+                Log.i("12345","   ?");
                 if (passwordCard.getResourceName() != null) {
                     String[] title = passwordCard.getResourceName().split("");
                     title[0] = title[0].toUpperCase(Locale.ROOT);
@@ -460,6 +380,7 @@ public class PasswordsListFragment extends Fragment {
                     resourceNameTextView.setText(result);
                 }
             }
+            Log.i("12345","   bind !");
         }
 
 
@@ -496,6 +417,7 @@ public class PasswordsListFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull PasswordHolder holder, int position) {
             PasswordCard passwordCard = passwordCards.get(position);
+            Log.i("12345","   ? " + passwordCards.get(position));
             holder.bind(passwordCard);
         }
 

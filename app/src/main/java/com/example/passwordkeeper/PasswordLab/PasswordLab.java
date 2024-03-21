@@ -47,6 +47,10 @@ public class PasswordLab {
     private int cardPosition;
     private DropBoxHelper dropBoxHelper;
 
+    public static List<PasswordCard> passwordsForSpeed;
+
+
+
     public static String getKeyCode() {
         return keyCode;
     }
@@ -92,6 +96,7 @@ public class PasswordLab {
 
     public List<PasswordCard> getPasswords() {
 
+        Log.i("12345","   SQLITE!!!!!!!!!!!!!!");
         List<PasswordCard> passwordCards = new ArrayList<>();
         PasswordCard passwordCard = null;
         PasswordCursorWrapper cursor = null;
@@ -145,14 +150,16 @@ public class PasswordLab {
 
 
     public boolean passwordIsWrong() {
-        List<PasswordCard> passwords = getPasswords();
-        if(passwords.size() != 0) {
-            PasswordCard pasCard = passwords.get(0);
-            String regex = "\\d{2}:\\d{2}:\\d{2} \\d{2}-\\d{2}-\\d{4}";
 
+        if(passwordsForSpeed == null) {
+            passwordsForSpeed = getPasswords();
+        }
+
+        if(passwordsForSpeed.size() != 0) {
+            PasswordCard pasCard = passwordsForSpeed.get(0);
+            String regex = "\\d{2}:\\d{2}:\\d{2} \\d{2}-\\d{2}-\\d{4}";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(pasCard.getDate());
-            Log.i("00000", "==== " + pasCard.getDate());
             if (matcher.matches()) return false;
             else return true;
         }else {

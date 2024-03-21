@@ -45,6 +45,7 @@ public class LoginFragment extends Fragment {
         //passwordLab = PasswordLab.getLab(getContext());
         createEnterButton();
         AppFragmentManager.closeApp(this);
+        PasswordLab.passwordsForSpeed = null;
         LeaveTimer.chancelTimer();
         return view;
     }
