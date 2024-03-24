@@ -5,16 +5,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 
+import com.example.passwordkeeper.DropBoxHelper.DropBoxHelper;
 import com.example.passwordkeeper.PasswordLab.AppPlugins;
 import com.example.passwordkeeper.PasswordLab.LeaveTimer;
 import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
 
+import java.io.File;
 import java.util.Objects;
 
 public class LoginFragment extends Fragment {
@@ -33,6 +36,27 @@ public class LoginFragment extends Fragment {
         createEnterButton();
         AppFragmentManager.closeApp(this);
         PasswordLab.resetMainPasswordsBaseArrayList();
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    DropBoxHelper dropBoxHelper = DropBoxHelper.getDropboxHelper(getContext());
+                    dropBoxHelper.downloadFileFromDropbox();
+                } catch (Exception e) {
+
+                    // Обработка ошибки отсутствия интернет-соединения
+                    // Здесь можно выполнить действия, чтобы сообщить пользователю о проблеме
+                    // Например, показать диалоговое окно с предупреждением
+                    // или отобразить сообщение об ошибке в интерфейсе пользователя
+                    e.printStackTrace(); // Это позволяет записать информацию об ошибке в логи для отладки
+                }
+
+            }
+        }).start();
+
         return view;
     }
 

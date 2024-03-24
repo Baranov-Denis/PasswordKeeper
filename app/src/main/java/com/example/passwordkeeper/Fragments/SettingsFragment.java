@@ -1,7 +1,9 @@
 package com.example.passwordkeeper.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,8 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +31,7 @@ import android.widget.Toast;
 import com.example.passwordkeeper.DropBoxHelper.DropBoxHelper;
 import com.example.passwordkeeper.DropBoxHelper.SharedPreferencesHelper;
 import com.example.passwordkeeper.PasswordLab.AppPlugins;
+import com.example.passwordkeeper.PasswordLab.FileUtils;
 import com.example.passwordkeeper.PasswordLab.PasswordLab;
 import com.example.passwordkeeper.R;
 
@@ -152,6 +157,7 @@ public class SettingsFragment extends Fragment {
                 startActivity(intent12);
             }
         }
+
     }
 
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
@@ -161,15 +167,19 @@ public class SettingsFragment extends Fragment {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         // There are no request codes
-                        Intent data = result.getData();
-                        // doSomeOperations();
-                        String filePath = data.getData().getPath().replace("/root/", "");
+                        String filePath = "";
+                        FileUtils fileUtils = new FileUtils(getContext());
+                        Uri selectedFileUri = result.getData().getData();
+                        filePath = fileUtils.getPath(selectedFileUri);
+
+                        Log.i(PasswordLab.GLOBAL_TAG, "   " + filePath);
                         Toast.makeText(getContext(), filePath, Toast.LENGTH_LONG).show();
                         passwordLab.loadExternalPasswordsList(getContext(), filePath);
                         AppFragmentManager.openFragment(new PasswordsListFragment());
                     }
                 }
             });
+
 
     @Override
     public void onPause() {

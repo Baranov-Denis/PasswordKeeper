@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxAuthFinish;
@@ -13,8 +14,11 @@ import com.dropbox.core.DbxWebAuth;
 import com.dropbox.core.oauth.DbxCredential;
 import com.dropbox.core.oauth.DbxRefreshResult;
 import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.FileMetadata;
 import com.example.passwordkeeper.PasswordLab.PasswordLab;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -26,6 +30,8 @@ public class DropBoxHelper {
     private final static String CLIENT_IDENTIFIER = "My_keeper";
     private final static String DROPBOX_FILE_PATH = "/keeper_backup.db";
     private final static String PHONE_STORAGE_FILE_PATH = "/Documents/Password keeper/keeper_backup.db";
+
+    private final static String PHONE_STORAGE_FILE_PATH_FOR_RESTORE = "/Documents/Password keeper/keeper_backup_restore_from_dropbox.db";
 
 
     private Context context;
@@ -153,5 +159,45 @@ public class DropBoxHelper {
             }
         }).start();
 
+    }
+
+
+    public void downloadFileFromDropbox(){
+        try {
+            // Получаем входной поток из Dropbox
+            InputStream in = client.files().download(DROPBOX_FILE_PATH).getInputStream();
+
+            // Создаем объект File для представления файла на устройстве
+            File file = new File(Environment.getExternalStorageDirectory() + PHONE_STORAGE_FILE_PATH_FOR_RESTORE);
+
+// Создаем директорию, если она еще не существует
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+
+            // Проверяем, существует ли директория, если нет - создаем ее
+            File parentDir = file.getParentFile();
+            if (!parentDir.exists()) {
+                parentDir.mkdirs();
+            }
+
+            // Создаем выходной поток для записи файла на устройство
+            FileOutputStream out = new FileOutputStream(file);
+
+            // Копируем данные из входного потока в выходной поток
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+
+            // Закрываем потоки
+            out.close();
+            in.close();
+
+            Log.i(PasswordLab.GLOBAL_TAG, "Файл успешно загружен и сохранен: " + PHONE_STORAGE_FILE_PATH_FOR_RESTORE);
+        } catch (Exception e) {
+            Log.e(PasswordLab.GLOBAL_TAG, "Ошибка загрузки файла: " + e.getMessage(), e);
+        }
     }
 }
