@@ -13,14 +13,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,7 +34,7 @@ public class PasswordLab {
 
 
     private static PasswordLab passwordLab;
-    public String testPassword =".fhrjduJGH950j_(@*#&";
+    public String testPassword = ".fhrjduJGH950j_(@*#&";
     private static String keyCode = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
     private Context context;
     private SQLiteDatabase sqLiteDatabase;
@@ -47,8 +42,16 @@ public class PasswordLab {
     private int cardPosition;
     private DropBoxHelper dropBoxHelper;
 
-    public static List<PasswordCard> passwordsForSpeed;
+    private static List<PasswordCard> mainPasswordsBaseArrayList;
 
+    public static List<PasswordCard> getMainPasswordsBaseArrayList(Context context) {
+        mainPasswordsBaseArrayList = getLab(context).getPasswords();
+        return mainPasswordsBaseArrayList;
+    }
+
+    public static void resetMainPasswordsBaseArrayList() {
+        mainPasswordsBaseArrayList = null;
+    }
 
 
     public static String getKeyCode() {
@@ -74,11 +77,11 @@ public class PasswordLab {
     }
 
 
-    public void setCardPosition(int cardPosition){
+    public void setCardPosition(int cardPosition) {
         this.cardPosition = cardPosition;
     }
 
-    public int getCardPosition(){
+    public int getCardPosition() {
         return cardPosition;
     }
 
@@ -94,9 +97,13 @@ public class PasswordLab {
         externalDatabase = null;
     }
 
+    /**
+     * Загрузка базы данных из Sqlite в mainPasswordsBaseArrayList
+     *
+     * @return List<PasswordCard>
+     */
     public List<PasswordCard> getPasswords() {
-
-        Log.i("12345","   SQLITE!!!!!!!!!!!!!!");
+        Log.i(PasswordLab.GLOBAL_TAG, "LOADING FROM SQLITE!!!");
         List<PasswordCard> passwordCards = new ArrayList<>();
         PasswordCard passwordCard = null;
         PasswordCursorWrapper cursor = null;
@@ -120,10 +127,9 @@ public class PasswordLab {
             cursor.close();
         }
 
-        if(passwordCards.size()>1) {
+        if (passwordCards.size() > 1) {
             Collections.sort(passwordCards);
         }
-
 
         return passwordCards;
     }
@@ -150,19 +156,14 @@ public class PasswordLab {
 
 
     public boolean passwordIsWrong() {
-
-        if(passwordsForSpeed == null) {
-            passwordsForSpeed = getPasswords();
-        }
-
-        if(passwordsForSpeed.size() != 0) {
-            PasswordCard pasCard = passwordsForSpeed.get(0);
+        if (mainPasswordsBaseArrayList.size() != 0) {
+            PasswordCard pasCard = mainPasswordsBaseArrayList.get(0);
             String regex = "\\d{2}:\\d{2}:\\d{2} \\d{2}-\\d{2}-\\d{4}";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(pasCard.getDate());
             if (matcher.matches()) return false;
             else return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -196,8 +197,6 @@ public class PasswordLab {
         sqLiteDatabase.update(PasswordTable.NAME, values, PasswordTable.Cols.UUID + " = ?",
                 new String[]{uuidString});
     }
-
-
 
 
     public void reloadAllCardsWithNewPassword(String newPassword) {
@@ -254,20 +253,10 @@ public class PasswordLab {
 
                 File currentDB = new File(data, currentDBPath);
 
-                Log.i(PasswordLab.GLOBAL_TAG, "EEEEEEEEEEEE " + currentDB.exists() );
                 File on = new File(Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_DOCUMENTS), "Password keeper");
                 on.mkdirs();
-                //Имя файла
-               // LocalDate currentDate = LocalDate.now();
-                //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
-              //  String formattedDate = currentDate.format(formatter);
-                //StringBuilder outputFileName = new StringBuilder("/keeper_backup_");
-              //  outputFileName.append(formattedDate);
-            //    outputFileName.append(".db");
-
-                 File backupDBFile = new File(on, "/keeper_backup.db");
-               // File backupDBFile = new File(on, outputFileName.toString());
+                File backupDBFile = new File(on, "/keeper_backup.db");
 
                 if (currentDB.exists()) {
                     FileChannel src = new FileInputStream(currentDB).getChannel();
@@ -289,7 +278,7 @@ public class PasswordLab {
         return false;
     }
 
-    public void saveDataBaseToDropbox(Context context, Activity activity){
+    public void saveDataBaseToDropbox(Context context, Activity activity) {
         if (backUp()) {
             Toast.makeText(context, activity.getResources().getString(R.string.Backup_is_successful_to_phone_storage), Toast.LENGTH_LONG).show();
             new Thread(new Runnable() {
@@ -323,7 +312,7 @@ public class PasswordLab {
 
                 }
             }).start();
-        }else {
+        } else {
             Toast.makeText(context, "activity.getResources().getString(R.string.Backup_is_failed)", Toast.LENGTH_LONG).show();
         }
     }

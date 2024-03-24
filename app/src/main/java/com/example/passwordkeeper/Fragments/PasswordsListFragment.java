@@ -88,9 +88,7 @@ public class PasswordsListFragment extends Fragment {
         passwordRecyclerView = view.findViewById(R.id.password_recycler_view);
         passwordRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         passwordLab = PasswordLab.getLab(getContext());
-        Log.i("12345","   passwordLab.getPasswords();");
-        optimalNewPasswordCards = passwordLab.getPasswords();
-
+        optimalNewPasswordCards = PasswordLab.getMainPasswordsBaseArrayList(getContext());
         layoutManager = (LinearLayoutManager) passwordRecyclerView.getLayoutManager();
         if (layoutManager != null) {
             layoutManager.scrollToPosition(passwordLab.getCardPosition());
@@ -141,16 +139,10 @@ public class PasswordsListFragment extends Fragment {
     private void updateUI() {
         LeaveTimer.runLeaveTimer(Values.timerNormal);
         PasswordLab passwordLab = PasswordLab.getLab(getActivity());
-        Log.i("12345","   start load");
-
-        //List<PasswordCard> passwordCards = passwordLab.getPasswords();
         List<PasswordCard> passwordCards = optimalNewPasswordCards;
-        Log.i("12345","   stop load");
         if (passwordAdapter == null) {
-            Log.i("12345","   passwordAdapter == null");
             passwordAdapter = new PasswordAdapter(passwordCards);
             passwordRecyclerView.setAdapter(passwordAdapter);
-            Log.i("12345","   passwordAdapter created");
         } else {
             passwordAdapter.notifyDataSetChanged();
         }
@@ -360,15 +352,12 @@ public class PasswordsListFragment extends Fragment {
         }
 
         public void bind(PasswordCard passwordCard) {
-            Log.i("12345","   bind ?");
-
             this.passwordCard = passwordCard;
 
             if (passwordLab.passwordIsWrong()) {
                 resourceNameTextView.setText(getActivity().getResources().getString(R.string.access_denied));
                 resourceFirstLetter.setText("");
             } else {
-                Log.i("12345","   ?");
                 if (passwordCard.getResourceName() != null) {
                     String[] title = passwordCard.getResourceName().split("");
                     title[0] = title[0].toUpperCase(Locale.ROOT);
@@ -380,7 +369,6 @@ public class PasswordsListFragment extends Fragment {
                     resourceNameTextView.setText(result);
                 }
             }
-            Log.i("12345","   bind !");
         }
 
 
@@ -417,7 +405,6 @@ public class PasswordsListFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull PasswordHolder holder, int position) {
             PasswordCard passwordCard = passwordCards.get(position);
-            Log.i("12345","   ? " + passwordCards.get(position));
             holder.bind(passwordCard);
         }
 
